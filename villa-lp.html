@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORA Villa — 自然の中の、もうひとつの家</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#f5f0e8;
+  --cream2:#e8e0d0;
+  --brown:#3d2c1e;
+  --brown2:#5c4030;
+  --gold:#b8945a;
+  --gold2:#d4aa72;
+  --green:#2d4a30;
+  --green2:#4a7550;
+  --white:#fdfaf6;
+  --dim:rgba(253,250,246,.5);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--brown);font-family:'Noto Sans JP',sans-serif;overflow-x:hidden;}
+
+/* ───────────── NAV ───────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 52px;
+  transition:background .4s,padding .4s;
+}
+nav.scrolled{background:rgba(253,250,246,.96);backdrop-filter:blur(12px);padding:14px 52px;box-shadow:0 1px 0 rgba(61,44,30,.08);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.3em;color:var(--white);transition:color .4s;}
+nav.scrolled .nav-logo{color:var(--brown);}
+.nav-logo span{color:var(--gold2);}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(253,250,246,.8);text-decoration:none;transition:color .2s;}
+nav.scrolled .nav-links a{color:var(--brown2);}
+.nav-links a:hover{color:var(--gold2);}
+.nav-cta{
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  border:1px solid rgba(253,250,246,.5);color:var(--white);
+  padding:9px 22px;text-decoration:none;transition:all .3s;
+}
+nav.scrolled .nav-cta{border-color:rgba(184,148,90,.6);color:var(--gold);}
+.nav-cta:hover{background:var(--gold2);border-color:var(--gold2);color:var(--brown);}
+
+/* ───────────── HERO SLIDESHOW ───────────── */
+.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;}
+
+/* 4枚のスライド */
+.slide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity 1.4s ease-in-out;
+  will-change:transform,opacity;
+}
+.slide.active{opacity:1;z-index:1;}
+.slide.prev{opacity:0;z-index:0;}
+
+/* スライドごとにSVGイラスト風景 */
+.slide svg{width:100%;height:100%;display:block;}
+
+/* ケンバーンズ風スケールアニメーション */
+.slide.active svg{animation:kenburns 8s ease-out forwards;}
+@keyframes kenburns{
+  from{transform:scale(1.08);}
+  to{transform:scale(1.0);}
+}
+
+/* ヴィネット */
+.hero-vignette{
+  position:absolute;inset:0;z-index:2;
+  background:
+    linear-gradient(to bottom, rgba(30,22,14,.45) 0%, transparent 40%),
+    linear-gradient(to top,    rgba(30,22,14,.6)  0%, transparent 50%),
+    radial-gradient(ellipse at center, transparent 40%, rgba(30,22,14,.35) 100%);
+  pointer-events:none;
+}
+
+/* ヒーローテキスト */
+.hero-content{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 20px;
+}
+.hero-eyebrow{
+  font-size:10px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:24px;
+  display:flex;align-items:center;gap:14px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:36px;height:1px;background:var(--gold2);opacity:.7;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,9vw,110px);
+  font-weight:300;line-height:1.05;letter-spacing:.06em;
+  color:var(--white);
+  text-shadow:0 2px 40px rgba(30,22,14,.4);
+  margin-bottom:16px;
+}
+.hero-catch{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,2.5vw,22px);
+  font-weight:300;font-style:italic;
+  color:rgba(253,250,246,.85);
+  letter-spacing:.1em;margin-bottom:48px;
+}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-fill{
+  background:var(--gold);color:var(--white);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  padding:15px 38px;text-decoration:none;font-weight:500;
+  transition:background .25s,transform .15s;
+}
+.btn-fill:hover{background:var(--gold2);transform:translateY(-1px);}
+.btn-ghost{
+  border:1px solid rgba(253,250,246,.45);color:var(--white);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  padding:15px 38px;text-decoration:none;
+  transition:border-color .25s,background .25s;
+}
+.btn-ghost:hover{border-color:var(--white);background:rgba(253,250,246,.08);}
+
+/* スライドインジケーター */
+.slide-indicators{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  z-index:4;display:flex;gap:10px;
+}
+.slide-dot{
+  width:28px;height:2px;background:rgba(253,250,246,.35);
+  cursor:pointer;transition:background .3s,width .3s;
+}
+.slide-dot.active{background:var(--gold2);width:44px;}
+
+/* スクロール誘導 */
+.hero-scroll{
+  position:absolute;bottom:32px;right:48px;z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(253,250,246,.5);font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+}
+.hero-scroll::after{
+  content:'';display:block;width:1px;height:44px;
+  background:linear-gradient(to bottom,var(--gold2),transparent);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ───────────── INTRO ───────────── */
+.intro{
+  background:var(--white);
+  padding:100px 40px;text-align:center;
+}
+.intro-inner{max-width:660px;margin:0 auto;}
+.intro-label{
+  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.intro-label::before,.intro-label::after{
+  content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.5;
+}
+.intro h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,52px);font-weight:300;
+  line-height:1.4;letter-spacing:.04em;color:var(--brown);
+  margin-bottom:28px;
+}
+.intro h2 em{font-style:italic;color:var(--green2);}
+.intro p{
+  font-size:15px;line-height:2.1;color:#5a4a3a;font-weight:300;
+}
+
+/* ───────────── BENEFIT SECTIONS ───────────── */
+.benefit{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:70vh;
+}
+.benefit.reverse{direction:rtl;}
+.benefit.reverse>*{direction:ltr;}
+
+.benefit-img{
+  position:relative;overflow:hidden;
+  min-height:480px;
+}
+.benefit-img svg{width:100%;height:100%;display:block;transition:transform .8s ease;}
+.benefit-img:hover svg{transform:scale(1.03);}
+
+.benefit-text{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:72px 64px;background:var(--white);
+}
+.benefit.alt .benefit-text{background:#f7f3ed;}
+.benefit-num{
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.benefit-num::after{
+  content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:.5;
+}
+.benefit-text h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,48px);font-weight:300;
+  line-height:1.3;letter-spacing:.03em;color:var(--brown);
+  margin-bottom:10px;
+}
+.benefit-text h2 em{font-style:italic;color:var(--green2);}
+.benefit-sub{
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;
+}
+.benefit-divider{width:36px;height:1px;background:var(--gold);opacity:.5;margin-bottom:28px;}
+.benefit-text p{
+  font-size:14px;line-height:2.1;color:#5a4a3a;font-weight:300;
+  margin-bottom:14px;
+}
+.benefit-text p strong{color:var(--brown);font-weight:500;}
+.benefit-tags{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
+}
+.benefit-tag{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid rgba(184,148,90,.35);color:var(--gold);
+  padding:5px 14px;
+}
+
+/* ───────────── PLAN / PRICING ───────────── */
+.plan-section{
+  background:var(--brown);padding:120px 40px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.plan-bg-word{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(100px,22vw,280px);font-weight:300;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(253,250,246,.04);
+  white-space:nowrap;pointer-events:none;letter-spacing:.06em;
+}
+.plan-inner{position:relative;z-index:1;}
+.plan-label{
+  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:32px;
+}
+.plan-inner h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,6vw,68px);font-weight:300;
+  color:var(--cream);letter-spacing:.05em;margin-bottom:56px;
+  line-height:1.3;
+}
+.plan-cards{
+  display:flex;justify-content:center;gap:2px;flex-wrap:wrap;
+  max-width:900px;margin:0 auto 56px;
+}
+.plan-card{
+  background:rgba(253,250,246,.05);
+  border:1px solid rgba(253,250,246,.1);
+  padding:44px 36px;flex:1;min-width:220px;max-width:280px;
+  text-align:center;position:relative;
+  transition:background .3s;
+}
+.plan-card:hover{background:rgba(253,250,246,.09);}
+.plan-card.featured{
+  background:rgba(184,148,90,.12);
+  border-color:rgba(184,148,90,.4);
+}
+.plan-card-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--brown);
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 16px;white-space:nowrap;font-weight:700;
+}
+.plan-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;letter-spacing:.12em;
+  color:var(--cream);margin-bottom:6px;
+}
+.plan-card-sub{font-size:10px;letter-spacing:.15em;color:rgba(253,250,246,.45);text-transform:uppercase;margin-bottom:28px;}
+.plan-card-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;color:var(--gold2);
+  line-height:1;margin-bottom:6px;
+}
+.plan-card-price small{font-size:.35em;letter-spacing:.1em;vertical-align:middle;}
+.plan-card-unit{font-size:11px;color:rgba(253,250,246,.4);letter-spacing:.1em;margin-bottom:28px;}
+.plan-card ul{list-style:none;text-align:left;margin-bottom:32px;}
+.plan-card ul li{
+  font-size:12px;color:rgba(253,250,246,.7);
+  padding:7px 0;border-bottom:1px solid rgba(253,250,246,.07);
+  display:flex;align-items:center;gap:8px;
+}
+.plan-card ul li::before{content:'—';color:var(--gold);opacity:.6;}
+.btn-fill-dark{
+  display:inline-block;background:var(--gold);color:var(--brown);
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  padding:13px 28px;text-decoration:none;font-weight:500;
+  transition:background .25s;width:100%;
+}
+.btn-fill-dark:hover{background:var(--gold2);}
+.btn-ghost-light{
+  display:inline-block;border:1px solid rgba(253,250,246,.25);color:var(--cream2);
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  padding:13px 28px;text-decoration:none;
+  transition:border-color .25s;width:100%;
+}
+.btn-ghost-light:hover{border-color:rgba(253,250,246,.6);}
+
+/* ───────────── LOCATIONS ───────────── */
+.location-section{background:var(--cream);padding:100px 40px;}
+.location-inner{max-width:1000px;margin:0 auto;}
+.location-header{text-align:center;margin-bottom:60px;}
+.location-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,52px);font-weight:300;
+  color:var(--brown);letter-spacing:.05em;margin-bottom:10px;
+}
+.location-header p{font-size:12px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;}
+.location-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;
+}
+.location-card{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;cursor:pointer;
+}
+.location-card svg{width:100%;height:100%;display:block;transition:transform .6s ease;}
+.location-card:hover svg{transform:scale(1.05);}
+.location-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(30,22,14,.85) 0%,transparent 55%);
+  transition:opacity .3s;
+}
+.location-card:hover .location-card-overlay{opacity:.8;}
+.location-card-text{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 24px;
+}
+.location-card-area{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:6px;
+}
+.location-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:300;color:var(--cream);letter-spacing:.06em;
+}
+.location-card-price{
+  font-size:11px;color:rgba(253,250,246,.6);letter-spacing:.1em;margin-top:4px;
+}
+
+/* ───────────── VOICE / TESTIMONIAL ───────────── */
+.voice-section{background:var(--white);padding:100px 40px;}
+.voice-inner{max-width:960px;margin:0 auto;}
+.voice-header{text-align:center;margin-bottom:60px;}
+.voice-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4.5vw,48px);font-weight:300;
+  color:var(--brown);letter-spacing:.05em;
+}
+.voice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
+.voice-card{background:#f7f3ed;padding:40px 32px;}
+.voice-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-style:italic;font-weight:300;
+  color:var(--brown);line-height:1.7;letter-spacing:.02em;
+  margin-bottom:24px;
+}
+.voice-quote::before{
+  content:'\201C';font-size:40px;color:var(--gold);line-height:0;
+  vertical-align:-.4em;margin-right:4px;
+}
+.voice-divider{width:24px;height:1px;background:var(--gold);opacity:.5;margin-bottom:16px;}
+.voice-name{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+.voice-attr{font-size:11px;color:#8a7a6a;margin-top:4px;}
+
+/* ───────────── FINAL CTA ───────────── */
+.cta-section{
+  background:var(--green);padding:130px 40px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-bg{
+  position:absolute;inset:0;opacity:.15;
+}
+.cta-bg svg{width:100%;height:100%;display:block;}
+.cta-inner{position:relative;z-index:1;}
+.cta-label{
+  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(253,250,246,.6);margin-bottom:24px;
+}
+.cta-inner h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,6vw,68px);font-weight:300;
+  color:var(--cream);letter-spacing:.05em;line-height:1.3;
+  margin-bottom:16px;
+}
+.cta-inner p{
+  font-size:14px;color:rgba(253,250,246,.7);
+  line-height:2;margin-bottom:48px;font-weight:300;
+}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-cream{
+  background:var(--cream);color:var(--green);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  padding:16px 40px;text-decoration:none;font-weight:500;
+  transition:background .25s,transform .15s;
+}
+.btn-cream:hover{background:var(--white);transform:translateY(-1px);}
+.btn-ghost-cream{
+  border:1px solid rgba(253,250,246,.35);color:var(--cream);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  padding:16px 40px;text-decoration:none;
+  transition:border-color .25s;
+}
+.btn-ghost-cream:hover{border-color:var(--cream);}
+
+/* ───────────── FOOTER ───────────── */
+footer{
+  background:var(--brown);
+  border-top:1px solid rgba(253,250,246,.06);
+  padding:52px 52px 32px;
+}
+.footer-inner{
+  max-width:1000px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:20px;margin-bottom:36px;
+}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:300;letter-spacing:.3em;color:var(--cream2);
+}
+.footer-logo span{color:var(--gold2);}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap;}
+.footer-links a{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(253,250,246,.4);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold2);}
+.footer-copy{
+  text-align:center;font-size:10px;
+  color:rgba(253,250,246,.25);letter-spacing:.1em;
+  padding-top:28px;border-top:1px solid rgba(253,250,246,.06);
+}
+
+/* ───────────── RESPONSIVE ───────────── */
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  .nav-links{display:none;}
+  .benefit{grid-template-columns:1fr;}
+  .benefit.reverse{direction:ltr;}
+  .benefit-img{min-height:300px;}
+  .benefit-text{padding:48px 28px;}
+  .plan-cards{flex-direction:column;align-items:center;}
+  .location-grid{grid-template-columns:1fr 1fr;}
+  footer{padding:40px 24px 24px;}
+  .footer-inner{flex-direction:column;text-align:center;}
+  .footer-links{justify-content:center;}
+  .hero-scroll{display:none;}
+}
+@media(max-width:560px){
+  .location-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-logo">SORA <span>Villa</span></div>
+  <div class="nav-links">
+    <a href="#benefits">特徴</a>
+    <a href="#plans">プラン</a>
+    <a href="#locations">エリア</a>
+    <a href="#voice">オーナーの声</a>
+  </div>
+  <a href="#cta" class="nav-cta">資料請求</a>
+</nav>
+
+<!-- ── HERO SLIDESHOW ── -->
+<section class="hero" id="hero">
+
+  <!-- SLIDE 1: 森の別荘 -->
+  <div class="slide active" id="slide-0">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c4d4e8"/>
+          <stop offset="60%" stop-color="#e8d8c4"/>
+          <stop offset="100%" stop-color="#d4c4a8"/>
+        </linearGradient>
+        <linearGradient id="mt1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#6a7a6a"/>
+          <stop offset="100%" stop-color="#4a5a48"/>
+        </linearGradient>
+        <linearGradient id="gnd1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4a6040"/>
+          <stop offset="100%" stop-color="#2a3820"/>
+        </linearGradient>
+        <filter id="blur1"><feGaussianBlur stdDeviation="3"/></filter>
+        <filter id="blur2"><feGaussianBlur stdDeviation="1.5"/></filter>
+      </defs>
+      <!-- 空 -->
+      <rect width="1600" height="900" fill="url(#sky1)"/>
+      <!-- 太陽の光 -->
+      <circle cx="900" cy="120" r="80" fill="#f5e8d0" opacity=".35" filter="url(#blur1)"/>
+      <circle cx="900" cy="120" r="40" fill="#f8f0e0" opacity=".5"/>
+      <!-- 遠景山 -->
+      <ellipse cx="200" cy="420" rx="380" ry="200" fill="#8a9a88" opacity=".5" filter="url(#blur1)"/>
+      <ellipse cx="600" cy="380" rx="420" ry="220" fill="#7a8c78" opacity=".55" filter="url(#blur1)"/>
+      <ellipse cx="1100" cy="350" rx="500" ry="250" fill="#6a7c68" opacity=".5" filter="url(#blur1)"/>
+      <ellipse cx="1500" cy="400" rx="300" ry="180" fill="#7a8a76" opacity=".45" filter="url(#blur1)"/>
+      <!-- 中景の木々 -->
+      <g filter="url(#blur2)">
+        <ellipse cx="120" cy="550" rx="90" ry="140" fill="#2d4a2a" opacity=".9"/>
+        <ellipse cx="200" cy="530" rx="75" ry="130" fill="#3a5a34" opacity=".85"/>
+        <ellipse cx="1380" cy="540" rx="85" ry="135" fill="#2a4828" opacity=".9"/>
+        <ellipse cx="1480" cy="520" rx="70" ry="125" fill="#3a5832" opacity=".85"/>
+        <ellipse cx="1500" cy="560" rx="60" ry="110" fill="#2d4a2a" opacity=".9"/>
+      </g>
+      <!-- 前景の木 -->
+      <rect x="95" y="420" width="18" height="200" fill="#2a1e14" rx="3"/>
+      <ellipse cx="104" cy="400" rx="70" ry="100" fill="#2a4826"/>
+      <ellipse cx="88" cy="420" rx="55" ry="85" fill="#345430"/>
+      <rect x="145" y="440" width="14" height="180" fill="#2a1e14" rx="3"/>
+      <ellipse cx="152" cy="420" rx="58" ry="90" fill="#304e2c"/>
+      <rect x="1455" y="430" width="16" height="190" fill="#2a1e14" rx="3"/>
+      <ellipse cx="1463" cy="410" rx="65" ry="95" fill="#2a4826"/>
+      <!-- 地面 -->
+      <path d="M0 680 Q400 640 800 660 Q1200 680 1600 650 L1600 900 L0 900Z" fill="url(#gnd1)"/>
+      <path d="M0 720 Q400 700 800 710 Q1200 720 1600 700 L1600 900 L0 900Z" fill="#3a5032" opacity=".8"/>
+      <!-- 別荘建物 -->
+      <g>
+        <!-- 本体 -->
+        <rect x="580" y="530" width="440" height="220" fill="#f0e8d8" rx="4"/>
+        <!-- 屋根 -->
+        <polygon points="560,530 800,420 1040,530" fill="#5c4030"/>
+        <polygon points="560,530 600,530 800,436 1000,530 1040,530 800,420" fill="#3d2820"/>
+        <!-- 煙突 -->
+        <rect x="880" y="420" width="28" height="70" fill="#4a3028"/>
+        <!-- 窓 -->
+        <rect x="620" y="570" width="80" height="70" fill="#a8c4d8" rx="3"/>
+        <rect x="720" y="570" width="80" height="70" fill="#a8c4d8" rx="3"/>
+        <rect x="840" y="565" width="100" height="80" fill="#a8c4d8" rx="3"/>
+        <rect x="960" y="570" width="80" height="70" fill="#a8c4d8" rx="3"/>
+        <!-- ドア -->
+        <rect x="755" y="640" width="90" height="110" fill="#6a4830" rx="4"/>
+        <circle cx="836" cy="698" r="5" fill="#c8a020"/>
+        <!-- デッキ -->
+        <rect x="540" y="745" width="520" height="18" fill="#8a6840"/>
+        <rect x="540" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="600" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="660" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="740" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="820" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="900" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="980" y="745" width="8" height="40" fill="#7a5c30"/>
+        <rect x="1050" y="745" width="8" height="40" fill="#7a5c30"/>
+        <!-- ウッドデッキ照明 -->
+        <circle cx="560" cy="740" r="6" fill="#f8d080" opacity=".8"/>
+        <circle cx="1060" cy="740" r="6" fill="#f8d080" opacity=".8"/>
+      </g>
+      <!-- 前景草 -->
+      <path d="M0 780 Q200 770 400 780 Q600 790 800 778 Q1000 766 1200 778 Q1400 790 1600 780 L1600 900 L0 900Z" fill="#2a3820"/>
+      <!-- 光の演出 -->
+      <rect x="0" y="0" width="1600" height="900" fill="rgba(200,180,150,0.08)"/>
+    </svg>
+  </div>
+
+  <!-- SLIDE 2: 海辺の別荘 -->
+  <div class="slide" id="slide-1">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4a7ab8"/>
+          <stop offset="40%" stop-color="#7aaad8"/>
+          <stop offset="70%" stop-color="#a8c8e8"/>
+          <stop offset="100%" stop-color="#d0e4f0"/>
+        </linearGradient>
+        <linearGradient id="sea2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2a6090"/>
+          <stop offset="100%" stop-color="#4a80b0"/>
+        </linearGradient>
+        <linearGradient id="sand2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4b880"/>
+          <stop offset="100%" stop-color="#b89860"/>
+        </linearGradient>
+        <filter id="wave"><feGaussianBlur stdDeviation="2"/></filter>
+      </defs>
+      <rect width="1600" height="900" fill="url(#sky2)"/>
+      <!-- 雲 -->
+      <ellipse cx="300" cy="140" rx="160" ry="50" fill="white" opacity=".7" filter="url(#wave)"/>
+      <ellipse cx="380" cy="130" rx="120" ry="42" fill="white" opacity=".75" filter="url(#wave)"/>
+      <ellipse cx="1100" cy="180" rx="140" ry="44" fill="white" opacity=".65" filter="url(#wave)"/>
+      <ellipse cx="1200" cy="168" rx="100" ry="36" fill="white" opacity=".7" filter="url(#wave)"/>
+      <!-- 海 -->
+      <rect x="0" y="450" width="1600" height="350" fill="url(#sea2)"/>
+      <!-- 波 -->
+      <path d="M0 470 Q200 455 400 470 Q600 485 800 468 Q1000 451 1200 468 Q1400 485 1600 470 L1600 900 L0 900Z" fill="#3a70a0" opacity=".5"/>
+      <path d="M0 500 Q300 488 600 500 Q900 512 1200 498 Q1400 488 1600 500 L1600 900 L0 900Z" fill="#2d6090" opacity=".4"/>
+      <!-- 光の反射 -->
+      <path d="M700 460 L750 460 L780 900 L670 900Z" fill="white" opacity=".04"/>
+      <path d="M900 455 L940 455 L960 900 L880 900Z" fill="white" opacity=".03"/>
+      <!-- 砂浜 -->
+      <path d="M0 680 Q400 660 800 670 Q1200 680 1600 660 L1600 900 L0 900Z" fill="url(#sand2)"/>
+      <path d="M0 720 Q400 710 800 718 Q1200 726 1600 714 L1600 900 L0 900Z" fill="#c8aa70" opacity=".6"/>
+      <!-- 別荘 -->
+      <rect x="500" y="500" width="600" height="230" fill="#f8f0e4" rx="6"/>
+      <polygon points="480,500 800,380 1120,500" fill="#c8a060"/>
+      <polygon points="480,500 520,500 800,394 1080,500 1120,500 800,380" fill="#a08040"/>
+      <!-- 大きな窓 -->
+      <rect x="520" y="540" width="160" height="120" fill="#90c4dc" rx="4" opacity=".85"/>
+      <rect x="700" y="535" width="200" height="130" fill="#90c4dc" rx="4" opacity=".85"/>
+      <rect x="920" y="540" width="160" height="120" fill="#90c4dc" rx="4" opacity=".85"/>
+      <!-- ドア -->
+      <rect x="740" y="630" width="120" height="100" fill="#7a5828" rx="4"/>
+      <circle cx="852" cy="684" r="5" fill="#d4b040"/>
+      <!-- テラス -->
+      <rect x="460" y="728" width="680" height="20" fill="#d4b070" rx="2"/>
+      <rect x="460" y="740" width="680" height="8" fill="#c4a060"/>
+      <!-- テラス柱 -->
+      <rect x="460" y="720" width="10" height="60" fill="#c4a060"/>
+      <rect x="560" y="720" width="10" height="60" fill="#c4a060"/>
+      <rect x="700" y="720" width="10" height="60" fill="#c4a060"/>
+      <rect x="900" y="720" width="10" height="60" fill="#c4a060"/>
+      <rect x="1050" y="720" width="10" height="60" fill="#c4a060"/>
+      <rect x="1130" y="720" width="10" height="60" fill="#c4a060"/>
+      <!-- ヤシの木 -->
+      <rect x="1350" y="480" width="14" height="220" fill="#8a6838" rx="4"/>
+      <ellipse cx="1320" cy="460" rx="80" ry="40" fill="#3a6028" transform="rotate(-20,1320,460)"/>
+      <ellipse cx="1370" cy="450" rx="80" ry="36" fill="#4a7030" transform="rotate(10,1370,450)"/>
+      <ellipse cx="1400" cy="465" rx="75" ry="34" fill="#3a6028" transform="rotate(35,1400,465)"/>
+      <rect x="200" y="510" width="12" height="200" fill="#8a6838" rx="4"/>
+      <ellipse cx="172" cy="492" rx="72" ry="36" fill="#3a6028" transform="rotate(-25,172,492)"/>
+      <ellipse cx="215" cy="482" rx="72" ry="33" fill="#4a7030" transform="rotate(5,215,482)"/>
+      <!-- 光効果 -->
+      <rect x="0" y="0" width="1600" height="900" fill="rgba(180,200,220,0.06)"/>
+    </svg>
+  </div>
+
+  <!-- SLIDE 3: 雪山の別荘 -->
+  <div class="slide" id="slide-2">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a2840"/>
+          <stop offset="40%" stop-color="#2a4060"/>
+          <stop offset="70%" stop-color="#4a6080"/>
+          <stop offset="100%" stop-color="#6a8090"/>
+        </linearGradient>
+        <linearGradient id="snow3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8eef4"/>
+          <stop offset="100%" stop-color="#c8d8e8"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sfblur"><feGaussianBlur stdDeviation="2"/></filter>
+      </defs>
+      <rect width="1600" height="900" fill="url(#sky3)"/>
+      <!-- 星 -->
+      <circle cx="200" cy="80" r="1.5" fill="white" opacity=".8"/>
+      <circle cx="450" cy="50" r="1" fill="white" opacity=".7"/>
+      <circle cx="700" cy="90" r="1.5" fill="white" opacity=".6"/>
+      <circle cx="1100" cy="60" r="1" fill="white" opacity=".8"/>
+      <circle cx="1350" cy="100" r="1.5" fill="white" opacity=".7"/>
+      <circle cx="1500" cy="40" r="1" fill="white" opacity=".6"/>
+      <circle cx="100" cy="180" r="1" fill="white" opacity=".5"/>
+      <circle cx="900" cy="30" r="1.5" fill="white" opacity=".7"/>
+      <!-- 月 -->
+      <circle cx="1350" cy="130" r="45" fill="#e8e8c8" opacity=".7" filter="url(#glow)"/>
+      <circle cx="1370" cy="115" r="42" fill="#1a2840"/>
+      <!-- 雪山 -->
+      <polygon points="0,600 300,200 600,600" fill="#7a9ab0" opacity=".7" filter="url(#sfblur)"/>
+      <polygon points="200,600 550,180 900,600" fill="#6a8aa0" opacity=".6" filter="url(#sfblur)"/>
+      <polygon points="700,600 1000,220 1300,600" fill="#7a9ab0" opacity=".65" filter="url(#sfblur)"/>
+      <polygon points="1100,600 1400,280 1600,500 1600,600" fill="#6a8aa0" opacity=".55" filter="url(#sfblur)"/>
+      <!-- 雪のキャップ -->
+      <polygon points="0,600 300,200 420,600" fill="url(#snow3)" opacity=".85"/>
+      <polygon points="380,600 550,180 720,600" fill="url(#snow3)" opacity=".8"/>
+      <polygon points="820,600 1000,220 1180,600" fill="url(#snow3)" opacity=".82"/>
+      <polygon points="1200,600 1400,280 1600,500 1600,600" fill="url(#snow3)" opacity=".75"/>
+      <!-- 雪原 -->
+      <path d="M0 680 Q400 660 800 672 Q1200 684 1600 665 L1600 900 L0 900Z" fill="#d8e8f0"/>
+      <path d="M0 720 Q400 708 800 716 Q1200 724 1600 710 L1600 900 L0 900Z" fill="#e0eef5" opacity=".7"/>
+      <!-- 別荘 -->
+      <rect x="560" y="540" width="480" height="220" fill="#f8f4ee" rx="4"/>
+      <polygon points="540,540 800,420 1060,540" fill="#8a5030"/>
+      <polygon points="540,540 580,540 800,432 1020,540 1060,540 800,420" fill="#6a3818"/>
+      <!-- 煙突から煙 -->
+      <rect x="870" y="415" width="26" height="65" fill="#6a3818"/>
+      <ellipse cx="883" cy="405" rx="18" ry="25" fill="#c0c0c0" opacity=".4" filter="url(#sfblur)"/>
+      <ellipse cx="878" cy="380" rx="22" ry="30" fill="#b0b0b0" opacity=".3" filter="url(#sfblur)"/>
+      <!-- 暖かい光の窓 -->
+      <rect x="600" y="575" width="90" height="75" fill="#f8d880" rx="3" opacity=".9"/>
+      <rect x="710" y="570" width="90" height="80" fill="#f8d070" rx="3" opacity=".9"/>
+      <rect x="830" y="565" width="110" height="90" fill="#f8c860" rx="3" opacity=".9"/>
+      <rect x="960" y="575" width="90" height="75" fill="#f8d880" rx="3" opacity=".9"/>
+      <!-- 窓の光漏れ -->
+      <ellipse cx="645" cy="655" rx="60" ry="20" fill="#f8d070" opacity=".15" filter="url(#sfblur)"/>
+      <ellipse cx="885" cy="660" rx="80" ry="22" fill="#f8c860" opacity=".18" filter="url(#sfblur)"/>
+      <!-- ドア -->
+      <rect x="745" y="650" width="110" height="110" fill="#6a3820" rx="4"/>
+      <!-- 雪の積もり -->
+      <path d="M540 540 Q560 535 580 538 Q600 541 620 536 Q640 531 660 534 Q680 537 700 533 Q800 522 900 530 Q1000 538 1060 540" fill="none" stroke="#e0eef5" stroke-width="12" stroke-linecap="round" opacity=".7"/>
+      <!-- 前景の木 -->
+      <rect x="200" y="550" width="12" height="200" fill="#3a2818"/>
+      <polygon points="140,560 206,420 272,560" fill="#3a5832"/>
+      <polygon points="152,500 206,380 260,500" fill="#4a6840"/>
+      <rect x="1380" y="540" width="12" height="210" fill="#3a2818"/>
+      <polygon points="1320,555 1386,415 1452,555" fill="#3a5832"/>
+      <polygon points="1332,495 1386,375 1440,495" fill="#4a6840"/>
+      <!-- 雪 (木の上) -->
+      <ellipse cx="206" cy="420" rx="70" ry="16" fill="#e0eef5" opacity=".7"/>
+      <ellipse cx="1386" cy="415" rx="70" ry="16" fill="#e0eef5" opacity=".7"/>
+      <rect x="0" y="0" width="1600" height="900" fill="rgba(40,60,90,0.1)"/>
+    </svg>
+  </div>
+
+  <!-- SLIDE 4: 秋の紅葉別荘 -->
+  <div class="slide" id="slide-3">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d0806040"/>
+          <stop offset="0%" stop-color="#d88050"/>
+          <stop offset="35%" stop-color="#e8a060"/>
+          <stop offset="70%" stop-color="#f0c080"/>
+          <stop offset="100%" stop-color="#d8b888"/>
+        </linearGradient>
+        <linearGradient id="sun4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f8d060"/>
+          <stop offset="100%" stop-color="#f0a040"/>
+        </linearGradient>
+        <filter id="glow4"><feGaussianBlur stdDeviation="8"/></filter>
+        <filter id="sfblur4"><feGaussianBlur stdDeviation="2.5"/></filter>
+      </defs>
+      <rect width="1600" height="900" fill="url(#sky4)"/>
+      <!-- 夕日 -->
+      <circle cx="820" cy="320" r="80" fill="#f8c840" opacity=".5" filter="url(#glow4)"/>
+      <circle cx="820" cy="320" r="50" fill="#f8d060" opacity=".7"/>
+      <!-- 光芒 -->
+      <line x1="820" y1="320" x2="400" y2="100" stroke="#f8d060" stroke-width="2" opacity=".15"/>
+      <line x1="820" y1="320" x2="1200" y2="80" stroke="#f8d060" stroke-width="2" opacity=".15"/>
+      <!-- 紅葉の木々（遠景） -->
+      <ellipse cx="100" cy="480" rx="130" ry="180" fill="#c85020" opacity=".7" filter="url(#sfblur4)"/>
+      <ellipse cx="180" cy="460" rx="110" ry="160" fill="#e06020" opacity=".65" filter="url(#sfblur4)"/>
+      <ellipse cx="1420" cy="470" rx="120" ry="170" fill="#d04020" opacity=".7" filter="url(#sfblur4)"/>
+      <ellipse cx="1500" cy="490" rx="100" ry="150" fill="#c05018" opacity=".65" filter="url(#sfblur4)"/>
+      <ellipse cx="350" cy="500" rx="100" ry="150" fill="#d86028" opacity=".6" filter="url(#sfblur4)"/>
+      <ellipse cx="1250" cy="490" rx="110" ry="155" fill="#c84820" opacity=".6" filter="url(#sfblur4)"/>
+      <!-- 地面 -->
+      <path d="M0 700 Q400 678 800 688 Q1200 698 1600 678 L1600 900 L0 900Z" fill="#5a4020"/>
+      <path d="M0 730 Q400 718 800 724 Q1200 730 1600 720 L1600 900 L0 900Z" fill="#6a4e28" opacity=".7"/>
+      <!-- 落ち葉 -->
+      <ellipse cx="300" cy="760" rx="8" ry="5" fill="#c85020" opacity=".7" transform="rotate(-20,300,760)"/>
+      <ellipse cx="500" cy="750" rx="7" ry="4" fill="#e06020" opacity=".6" transform="rotate(15,500,750)"/>
+      <ellipse cx="1100" cy="755" rx="8" ry="5" fill="#d04828" opacity=".7" transform="rotate(-10,1100,755)"/>
+      <ellipse cx="1300" cy="745" rx="6" ry="4" fill="#c85020" opacity=".65" transform="rotate(25,1300,745)"/>
+      <!-- 別荘 -->
+      <rect x="560" y="525" width="480" height="235" fill="#f4ede0" rx="4"/>
+      <polygon points="540,525 800,405 1060,525" fill="#6a3818"/>
+      <polygon points="540,525 580,525 800,417 1020,525 1060,525 800,405" fill="#4a2410"/>
+      <!-- 窓 -->
+      <rect x="600" y="560" width="90" height="80" fill="#b8d0e0" rx="3" opacity=".85"/>
+      <rect x="710" y="555" width="90" height="85" fill="#b8d0e0" rx="3" opacity=".85"/>
+      <rect x="830" y="548" width="115" height="95" fill="#b8d0e0" rx="3" opacity=".85"/>
+      <rect x="965" y="560" width="90" height="80" fill="#b8d0e0" rx="3" opacity=".85"/>
+      <!-- 窓に映る夕日 -->
+      <rect x="600" y="560" width="90" height="80" fill="#f8a030" rx="3" opacity=".25"/>
+      <rect x="965" y="560" width="90" height="80" fill="#f8a030" rx="3" opacity=".2"/>
+      <!-- ドア -->
+      <rect x="745" y="645" width="110" height="115" fill="#5a3018" rx="4"/>
+      <circle cx="848" cy="704" r="5" fill="#c8a020"/>
+      <!-- テラス -->
+      <rect x="520" y="758" width="560" height="16" fill="#8a6030"/>
+      <!-- 煙突 -->
+      <rect x="880" y="403" width="26" height="70" fill="#4a2410"/>
+      <!-- 前景の紅葉 -->
+      <rect x="170" y="480" width="14" height="240" fill="#3a2010"/>
+      <ellipse cx="150" cy="455" rx="75" ry="100" fill="#c84820"/>
+      <ellipse cx="185" cy="440" rx="70" ry="95" fill="#e05828"/>
+      <ellipse cx="220" cy="460" rx="65" ry="88" fill="#d84020"/>
+      <rect x="1400" y="470" width="14" height="250" fill="#3a2010"/>
+      <ellipse cx="1380" cy="445" rx="75" ry="100" fill="#c84820"/>
+      <ellipse cx="1410" cy="432" rx="68" ry="92" fill="#e05828"/>
+      <ellipse cx="1440" cy="455" rx="62" ry="85" fill="#d84020"/>
+      <rect x="0" y="0" width="1600" height="900" fill="rgba(200,100,30,0.08)"/>
+    </svg>
+  </div>
+
+  <!-- オーバーレイ・テキスト -->
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Share Villa — Japan</div>
+    <h1>SORA Villa</h1>
+    <p class="hero-catch">自然が、もうひとつの家になる。</p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-fill">無料資料請求</a>
+      <a href="#benefits" class="btn-ghost">詳細を見る</a>
+    </div>
+  </div>
+
+  <!-- インジケーター -->
+  <div class="slide-indicators">
+    <div class="slide-dot active" onclick="goSlide(0)"></div>
+    <div class="slide-dot" onclick="goSlide(1)"></div>
+    <div class="slide-dot" onclick="goSlide(2)"></div>
+    <div class="slide-dot" onclick="goSlide(3)"></div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="intro-inner">
+    <div class="intro-label">What is SORA Villa</div>
+    <h2>シェアして持つ、<br><em>新しい別荘のかたち。</em></h2>
+    <p>日常から少し離れた、心が弾む場所へ。<br>
+    使う分だけを分かち合うシェア別荘で、<br>
+    森・海・雪山・秋の里山——<br>
+    四季の自然とともに生きる暮らしを、もっと身近に。</p>
+  </div>
+</section>
+
+<!-- ── BENEFITS ── -->
+<div id="benefits">
+
+  <!-- 01: コスト -->
+  <section class="benefit">
+    <div class="benefit-img">
+      <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg_b1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8f0d8"/>
+            <stop offset="100%" stop-color="#c8d8a8"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#bg_b1)"/>
+        <ellipse cx="160" cy="380" rx="160" ry="280" fill="#4a6a30" opacity=".5"/>
+        <ellipse cx="640" cy="360" rx="140" ry="260" fill="#5a7a38" opacity=".45"/>
+        <path d="M0 420 Q200 400 400 412 Q600 424 800 408 L800 600 L0 600Z" fill="#3a5828"/>
+        <path d="M0 460 Q200 448 400 455 Q600 462 800 450 L800 600 L0 600Z" fill="#2a4820" opacity=".8"/>
+        <!-- テーブルと椅子 (アウトドア) -->
+        <rect x="300" y="350" width="200" height="12" fill="#8a6838" rx="4"/>
+        <rect x="340" y="362" width="16" height="60" fill="#7a5828" rx="3"/>
+        <rect x="444" y="362" width="16" height="60" fill="#7a5828" rx="3"/>
+        <!-- 椅子 -->
+        <rect x="258" y="370" width="60" height="8" fill="#8a6838" rx="3"/>
+        <rect x="262" y="378" width="10" height="50" fill="#7a5828" rx="2"/>
+        <rect x="306" y="378" width="10" height="50" fill="#7a5828" rx="2"/>
+        <rect x="258" y="378" width="60" height="30" fill="#a07840" opacity=".7" rx="3"/>
+        <rect x="480" y="370" width="60" height="8" fill="#8a6838" rx="3"/>
+        <rect x="484" y="378" width="10" height="50" fill="#7a5828" rx="2"/>
+        <rect x="528" y="378" width="10" height="50" fill="#7a5828" rx="2"/>
+        <rect x="480" y="378" width="60" height="30" fill="#a07840" opacity=".7" rx="3"/>
+        <!-- コーヒーカップ -->
+        <ellipse cx="380" cy="348" rx="18" ry="10" fill="#f0e0c0" opacity=".9"/>
+        <ellipse cx="430" cy="348" rx="18" ry="10" fill="#f0e0c0" opacity=".9"/>
+        <!-- 価格タグ演出 -->
+        <rect x="280" y="180" width="240" height="120" rx="8" fill="white" opacity=".92"/>
+        <text x="400" y="220" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#8a6030" letter-spacing="2">月々のコスト</text>
+        <text x="400" y="268" text-anchor="middle" font-family="Georgia,serif" font-size="38" fill="#3d2c1e" font-weight="300">¥38,000~</text>
+        <text x="400" y="292" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8a7060">別荘オーナーになれる</text>
+        <rect x="280" y="180" width="240" height="4" rx="2" fill="#b8945a"/>
+      </svg>
+    </div>
+    <div class="benefit-text">
+      <div class="benefit-num">01 — Cost</div>
+      <h2>月々<em>3万円台</em>から、<br>別荘オーナーへ。</h2>
+      <div class="benefit-sub">Share Ownership</div>
+      <div class="benefit-divider"></div>
+      <p>
+        一棟を複数のオーナーで共有する<strong>シェア別荘の仕組み</strong>により、
+        従来の別荘購入に比べて大幅に初期費用を抑えられます。
+      </p>
+      <p>
+        本体価格は<strong>450万円〜</strong>。住宅ローンを利用すれば
+        月々<strong>3万円台</strong>から別荘オーナーになることが可能です。
+        管理・清掃・修繕費用はすべて込みのため、
+        余計な手間もかかりません。
+      </p>
+      <p>
+        使わない期間は<strong>シェアリングに回して収益化</strong>でき、
+        保有コストをさらに抑える仕組みも整っています。
+      </p>
+      <div class="benefit-tags">
+        <span class="benefit-tag">450万円〜</span>
+        <span class="benefit-tag">月々3万円台〜</span>
+        <span class="benefit-tag">管理費込み</span>
+        <span class="benefit-tag">収益化対応</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02: 自由な使い方 -->
+  <section class="benefit alt reverse">
+    <div class="benefit-img">
+      <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg_b2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8d8e8"/>
+            <stop offset="100%" stop-color="#a8c0d8"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#bg_b2)"/>
+        <!-- 地図イメージ -->
+        <rect x="60" y="80" width="680" height="440" rx="12" fill="white" opacity=".7"/>
+        <!-- 地図の模様 -->
+        <path d="M60 250 Q200 230 350 245 Q500 260 640 240 Q720 232 740 240 L740 260 Q720 252 640 260 Q500 280 350 265 Q200 250 60 270Z" fill="#d0dce8" opacity=".7"/>
+        <path d="M60 350 Q150 340 280 348 Q380 356 480 342 Q600 328 740 340 L740 360 Q600 348 480 362 Q380 376 280 368 Q150 360 60 370Z" fill="#d0dce8" opacity=".6"/>
+        <!-- 緑エリア -->
+        <ellipse cx="200" cy="200" rx="100" ry="70" fill="#c8dca8" opacity=".6"/>
+        <ellipse cx="580" cy="320" rx="120" ry="80" fill="#c8dca8" opacity=".55"/>
+        <!-- 道路 -->
+        <line x1="60" y1="300" x2="740" y2="300" stroke="#e8e0d0" stroke-width="8"/>
+        <line x1="400" y1="80" x2="400" y2="520" stroke="#e8e0d0" stroke-width="6"/>
+        <!-- ピン（エリア） -->
+        <g>
+          <circle cx="240" cy="180" r="22" fill="#b8945a"/>
+          <polygon points="240,210 228,195 252,195" fill="#b8945a"/>
+          <text x="240" y="186" text-anchor="middle" font-family="serif" font-size="12" fill="white" font-weight="bold">軽</text>
+        </g>
+        <g>
+          <circle cx="550" cy="240" r="22" fill="#5a8a50"/>
+          <polygon points="550,270 538,255 562,255" fill="#5a8a50"/>
+          <text x="550" y="246" text-anchor="middle" font-family="serif" font-size="12" fill="white" font-weight="bold">伊</text>
+        </g>
+        <g>
+          <circle cx="350" cy="380" r="22" fill="#4a7090"/>
+          <polygon points="350,410 338,395 362,395" fill="#4a7090"/>
+          <text x="350" y="386" text-anchor="middle" font-family="serif" font-size="12" fill="white" font-weight="bold">那</text>
+        </g>
+        <g>
+          <circle cx="180" cy="390" r="18" fill="#c85820"/>
+          <polygon points="180,416 170,402 190,402" fill="#c85820"/>
+          <text x="180" y="396" text-anchor="middle" font-family="serif" font-size="10" fill="white" font-weight="bold">富</text>
+        </g>
+        <g>
+          <circle cx="620" cy="400" r="18" fill="#6a50a0"/>
+          <polygon points="620,426 610,412 630,412" fill="#6a50a0"/>
+          <text x="620" y="406" text-anchor="middle" font-family="serif" font-size="10" fill="white" font-weight="bold">北</text>
+        </g>
+        <!-- 凡例 -->
+        <rect x="80" y="460" width="640" height="44" rx="6" fill="white" opacity=".7"/>
+        <circle cx="120" cy="482" r="8" fill="#b8945a"/><text x="136" y="487" font-family="sans-serif" font-size="11" fill="#3d2c1e">軽井沢</text>
+        <circle cx="220" cy="482" r="8" fill="#5a8a50"/><text x="236" y="487" font-family="sans-serif" font-size="11" fill="#3d2c1e">伊豆</text>
+        <circle cx="305" cy="482" r="8" fill="#4a7090"/><text x="321" y="487" font-family="sans-serif" font-size="11" fill="#3d2c1e">那須</text>
+        <circle cx="405" cy="482" r="8" fill="#c85820"/><text x="421" y="487" font-family="sans-serif" font-size="11" fill="#3d2c1e">富士</text>
+        <circle cx="510" cy="482" r="8" fill="#6a50a0"/><text x="526" y="487" font-family="sans-serif" font-size="11" fill="#3d2c1e">北海道</text>
+      </svg>
+    </div>
+    <div class="benefit-text">
+      <div class="benefit-num">02 — Freedom</div>
+      <h2>全国の拠点を、<br><em>自由に使える。</em></h2>
+      <div class="benefit-sub">Multi Location Access</div>
+      <div class="benefit-divider"></div>
+      <p>
+        一つの物件を所有するだけで、
+        <strong>全国のSORA Villa拠点</strong>がすべて使えるようになります。
+        軽井沢・伊豆・那須・富士・北海道——
+        季節や気分に合わせて「今週の別荘」を選べます。
+      </p>
+      <p>
+        夏は海辺で、冬は雪山で、春と秋は紅葉の森で。
+        <strong>一つの会員権で四季のすべてを満喫</strong>できるのが
+        シェア別荘ならではの特権です。
+      </p>
+      <p>
+        予約は<strong>専用アプリから24時間</strong>可能。
+        前日の空き予約にも対応しており、
+        思い立ったらすぐに自然へ向かえます。
+      </p>
+      <div class="benefit-tags">
+        <span class="benefit-tag">全国5エリア</span>
+        <span class="benefit-tag">相互利用OK</span>
+        <span class="benefit-tag">アプリ予約</span>
+        <span class="benefit-tag">前日予約対応</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03: デザイン・空間 -->
+  <section class="benefit">
+    <div class="benefit-img">
+      <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg_b3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f8f0e8"/>
+            <stop offset="100%" stop-color="#e8dcc8"/>
+          </linearGradient>
+          <linearGradient id="wall_b3" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#e0d0b8"/>
+            <stop offset="100%" stop-color="#f0e4d0"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#bg_b3)"/>
+        <!-- 窓からの光 -->
+        <rect x="0" y="0" width="800" height="600" fill="rgba(255,240,200,0.15)"/>
+        <!-- 天井・床 -->
+        <rect x="0" y="0" width="800" height="100" fill="#c8b898" opacity=".5"/>
+        <rect x="0" y="480" width="800" height="120" fill="#a08858" opacity=".6"/>
+        <!-- 壁 (木材) -->
+        <rect x="0" y="100" width="800" height="380" fill="url(#wall_b3)"/>
+        <line x1="0" y1="180" x2="800" y2="180" stroke="#d0c0a0" stroke-width="1" opacity=".5"/>
+        <line x1="0" y1="260" x2="800" y2="260" stroke="#d0c0a0" stroke-width="1" opacity=".4"/>
+        <line x1="0" y1="340" x2="800" y2="340" stroke="#d0c0a0" stroke-width="1" opacity=".4"/>
+        <line x1="0" y1="420" x2="800" y2="420" stroke="#d0c0a0" stroke-width="1" opacity=".3"/>
+        <!-- 大きな窓 -->
+        <rect x="220" y="110" width="360" height="300" fill="#a8c4d8" rx="4" opacity=".7"/>
+        <rect x="230" y="120" width="340" height="280" fill="#b8d4e8" rx="3" opacity=".8"/>
+        <!-- 窓枠 -->
+        <rect x="220" y="110" width="8" height="300" fill="#5a3818"/>
+        <rect x="572" y="110" width="8" height="300" fill="#5a3818"/>
+        <rect x="220" y="106" width="360" height="8" fill="#5a3818"/>
+        <rect x="220" y="406" width="360" height="8" fill="#5a3818"/>
+        <rect x="396" y="110" width="6" height="300" fill="#5a3818"/>
+        <rect x="220" y="256" width="360" height="6" fill="#5a3818"/>
+        <!-- 窓から見える森 -->
+        <rect x="230" y="120" width="340" height="280" fill="#7aaa60" opacity=".3"/>
+        <ellipse cx="310" cy="300" rx="80" ry="120" fill="#3a6828" opacity=".6"/>
+        <ellipse cx="430" cy="280" rx="70" ry="110" fill="#4a7830" opacity=".55"/>
+        <ellipse cx="510" cy="310" rx="60" ry="100" fill="#3a6020" opacity=".5"/>
+        <!-- ソファ -->
+        <rect x="80" y="400" width="200" height="80" rx="8" fill="#8a7060" opacity=".9"/>
+        <rect x="80" y="380" width="200" height="28" rx="6" fill="#9a8070" opacity=".9"/>
+        <rect x="80" y="400" width="20" height="80" rx="4" fill="#7a6050"/>
+        <rect x="260" y="400" width="20" height="80" rx="4" fill="#7a6050"/>
+        <!-- クッション -->
+        <ellipse cx="140" cy="393" rx="32" ry="16" fill="#c8b090" opacity=".8"/>
+        <ellipse cx="220" cy="393" rx="32" ry="16" fill="#b8a080" opacity=".8"/>
+        <!-- コーヒーテーブル -->
+        <rect x="300" y="450" width="140" height="10" rx="3" fill="#8a6838"/>
+        <rect x="316" y="460" width="10" height="30" rx="2" fill="#7a5828"/>
+        <rect x="416" y="460" width="10" height="30" rx="2" fill="#7a5828"/>
+        <!-- 本棚 -->
+        <rect x="620" y="140" width="120" height="300" rx="4" fill="#6a4828" opacity=".8"/>
+        <rect x="630" y="155" width="100" height="18" rx="2" fill="#8a6840" opacity=".9"/>
+        <rect x="630" y="180" width="100" height="18" rx="2" fill="#c85030" opacity=".8"/>
+        <rect x="630" y="205" width="100" height="18" rx="2" fill="#4a7040" opacity=".8"/>
+        <rect x="630" y="230" width="100" height="18" rx="2" fill="#3a5888" opacity=".8"/>
+        <rect x="630" y="255" width="100" height="18" rx="2" fill="#8a7040" opacity=".8"/>
+        <rect x="630" y="280" width="100" height="18" rx="2" fill="#605040" opacity=".8"/>
+        <rect x="630" y="305" width="100" height="18" rx="2" fill="#c87040" opacity=".8"/>
+        <rect x="630" y="330" width="100" height="18" rx="2" fill="#5a7860" opacity=".8"/>
+        <!-- 照明 -->
+        <line x1="400" y1="0" x2="400" y2="90" stroke="#8a6838" stroke-width="2"/>
+        <ellipse cx="400" cy="95" rx="35" ry="18" fill="#d4a840" opacity=".9"/>
+        <ellipse cx="400" cy="98" rx="30" ry="14" fill="#f8e060" opacity=".6"/>
+        <ellipse cx="400" cy="100" rx="50" ry="30" fill="#f8e060" opacity=".12"/>
+        <!-- ラグ -->
+        <ellipse cx="300" cy="478" rx="180" ry="25" fill="#b89878" opacity=".5"/>
+      </svg>
+    </div>
+    <div class="benefit-text">
+      <div class="benefit-num">03 — Design</div>
+      <h2>建築家と作る、<br><em>ぬくもりの空間。</em></h2>
+      <div class="benefit-sub">Architectural Design</div>
+      <div class="benefit-divider"></div>
+      <p>
+        すべての別荘は<strong>一流建築家との共同設計</strong>。
+        地元の木材・石材を活かし、自然と室内が溶け合う
+        開放的な空間を実現しています。
+      </p>
+      <p>
+        大きな開口部から差し込む<strong>木漏れ日と四季の景色</strong>、
+        暖炉が生み出す柔らかな温もり——
+        都市の住まいでは味わえない、
+        本物の豊かさがここにあります。
+      </p>
+      <p>
+        室内には<strong>こだわりのインテリア</strong>を統一して配置。
+        荷物を持たずに来ても、すぐに「わが家」として
+        くつろいでいただけます。
+      </p>
+      <div class="benefit-tags">
+        <span class="benefit-tag">建築家設計</span>
+        <span class="benefit-tag">地元素材</span>
+        <span class="benefit-tag">暖炉完備</span>
+        <span class="benefit-tag">家具付き</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04: 安心・管理 -->
+  <section class="benefit alt reverse">
+    <div class="benefit-img">
+      <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg_b4" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e8f4ec"/>
+            <stop offset="100%" stop-color="#c8e4d0"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#bg_b4)"/>
+        <!-- 背景の円 -->
+        <circle cx="400" cy="300" r="240" fill="white" opacity=".4"/>
+        <circle cx="400" cy="300" r="190" fill="white" opacity=".3"/>
+        <!-- シールドアイコン -->
+        <path d="M400 80 L540 140 L540 290 Q540 380 400 430 Q260 380 260 290 L260 140Z" fill="#2d4a30" opacity=".15"/>
+        <path d="M400 100 L520 154 L520 285 Q520 365 400 410 Q280 365 280 285 L280 154Z" fill="#2d4a30" opacity=".2"/>
+        <path d="M400 120 L500 168 L500 280 Q500 350 400 390 Q300 350 300 280 L300 168Z" fill="#3a6038" opacity=".6"/>
+        <!-- チェックマーク -->
+        <polyline points="340,280 380,320 460,240" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- 管理サービスアイコン群 -->
+        <g>
+          <circle cx="160" cy="200" r="50" fill="white" opacity=".85"/>
+          <text x="160" y="196" text-anchor="middle" font-size="22">🏠</text>
+          <text x="160" y="218" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3d2c1e">清掃管理</text>
+        </g>
+        <g>
+          <circle cx="640" cy="200" r="50" fill="white" opacity=".85"/>
+          <text x="640" y="196" text-anchor="middle" font-size="22">🔧</text>
+          <text x="640" y="218" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3d2c1e">設備修繕</text>
+        </g>
+        <g>
+          <circle cx="160" cy="400" r="50" fill="white" opacity=".85"/>
+          <text x="160" y="396" text-anchor="middle" font-size="22">📱</text>
+          <text x="160" y="418" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3d2c1e">アプリ管理</text>
+        </g>
+        <g>
+          <circle cx="640" cy="400" r="50" fill="white" opacity=".85"/>
+          <text x="640" y="396" text-anchor="middle" font-size="22">💰</text>
+          <text x="640" y="418" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#3d2c1e">収益化</text>
+        </g>
+        <!-- 接続線 -->
+        <line x1="210" y1="200" x2="300" y2="230" stroke="#3a6038" stroke-width="1.5" opacity=".4" stroke-dasharray="6,4"/>
+        <line x1="590" y1="200" x2="500" y2="230" stroke="#3a6038" stroke-width="1.5" opacity=".4" stroke-dasharray="6,4"/>
+        <line x1="210" y1="400" x2="300" y2="370" stroke="#3a6038" stroke-width="1.5" opacity=".4" stroke-dasharray="6,4"/>
+        <line x1="590" y1="400" x2="500" y2="370" stroke="#3a6038" stroke-width="1.5" opacity=".4" stroke-dasharray="6,4"/>
+      </svg>
+    </div>
+    <div class="benefit-text">
+      <div class="benefit-num">04 — Management</div>
+      <h2>管理はすべて、<br><em>おまかせで。</em></h2>
+      <div class="benefit-sub">Full Service Management</div>
+      <div class="benefit-divider"></div>
+      <p>
+        別荘所有の悩みといえば<strong>維持管理の手間とコスト</strong>。
+        SORA Villaでは清掃・点検・修繕・保険まで、
+        すべてをプロのチームが一括管理します。
+      </p>
+      <p>
+        使いたいときだけ予約して訪れ、
+        帰ったあとの後片付けは不要。
+        <strong>まるでホテルのように快適</strong>な状態で
+        いつでも迎えてくれます。
+      </p>
+      <p>
+        利用しない期間は<strong>自動的にシェアリング収益</strong>として還元。
+        スマートフォンのアプリで収支をリアルタイムに確認でき、
+        透明性の高い運用を実現しています。
+      </p>
+      <div class="benefit-tags">
+        <span class="benefit-tag">清掃込み</span>
+        <span class="benefit-tag">24h対応</span>
+        <span class="benefit-tag">収益還元</span>
+        <span class="benefit-tag">アプリ管理</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /benefits -->
+
+<!-- ── PLAN ── -->
+<section class="plan-section" id="plans">
+  <div class="plan-bg-word">OWNERSHIP</div>
+  <div class="plan-inner">
+    <div class="plan-label">Plans &amp; Pricing</div>
+    <h2>あなたの別荘ライフを、<br>今日から始めよう。</h2>
+    <div class="plan-cards">
+      <div class="plan-card">
+        <div class="plan-card-name">スタンダード</div>
+        <div class="plan-card-sub">Share 1/8 Ownership</div>
+        <div class="plan-card-price"><small>¥</small>450<small>万〜</small></div>
+        <div class="plan-card-unit">月々 38,000円〜</div>
+        <ul>
+          <li>年間45泊まで利用可</li>
+          <li>全国拠点の相互利用</li>
+          <li>清掃・管理費込み</li>
+          <li>アプリ予約サービス</li>
+        </ul>
+        <a href="#cta" class="btn-ghost-light">詳細を見る</a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-card-badge">人気 No.1</div>
+        <div class="plan-card-name">プレミアム</div>
+        <div class="plan-card-sub">Share 1/4 Ownership</div>
+        <div class="plan-card-price"><small>¥</small>900<small>万〜</small></div>
+        <div class="plan-card-unit">月々 75,000円〜</div>
+        <ul>
+          <li>年間90泊まで利用可</li>
+          <li>全国拠点の相互利用</li>
+          <li>清掃・管理費込み</li>
+          <li>優先予約権</li>
+          <li>収益シェアリング対応</li>
+        </ul>
+        <a href="#cta" class="btn-fill-dark">資料請求する</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-name">エグゼクティブ</div>
+        <div class="plan-card-sub">1/2 or Full Ownership</div>
+        <div class="plan-card-price"><small>¥</small>1,800<small>万〜</small></div>
+        <div class="plan-card-unit">月々 150,000円〜</div>
+        <ul>
+          <li>年間180泊〜利用可</li>
+          <li>全国拠点の相互利用</li>
+          <li>専任コンシェルジュ</li>
+          <li>カスタマイズ対応</li>
+        </ul>
+        <a href="#cta" class="btn-ghost-light">個別相談</a>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(253,250,246,.3);letter-spacing:.08em;">
+      ※月々の金額は金利2.7%・10年ローンの場合の目安です。申込金別途。
+    </p>
+  </div>
+</section>
+
+<!-- ── LOCATIONS ── -->
+<section class="location-section" id="locations">
+  <div class="location-inner">
+    <div class="location-header">
+      <h2>全国の拠点</h2>
+      <p>Available Locations</p>
+    </div>
+    <div class="location-grid">
+      <!-- 軽井沢 -->
+      <div class="location-card">
+        <svg viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lc1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a7a40"/><stop offset="100%" stop-color="#2a5020"/></linearGradient></defs>
+          <rect width="400" height="533" fill="url(#lc1)"/>
+          <ellipse cx="80" cy="300" rx="120" ry="200" fill="#3a6028" opacity=".7"/>
+          <ellipse cx="320" cy="280" rx="110" ry="190" fill="#4a7030" opacity=".65"/>
+          <path d="M0 350 Q200 330 400 348 L400 533 L0 533Z" fill="#2a4020"/>
+          <rect x="130" y="260" width="140" height="100" fill="#f0e8d8" rx="3"/>
+          <polygon points="118,260 200,200 282,260" fill="#6a3818"/>
+          <rect x="158" y="280" width="36" height="36" fill="#a0c0d8" opacity=".8" rx="2"/>
+          <rect x="206" y="280" width="36" height="36" fill="#a0c0d8" opacity=".8" rx="2"/>
+          <rect x="165" y="316" width="70" height="44" fill="#5a3018" rx="2"/>
+        </svg>
+        <div class="location-card-overlay"></div>
+        <div class="location-card-text">
+          <div class="location-card-area">Nagano</div>
+          <div class="location-card-name">軽井沢</div>
+          <div class="location-card-price">本体価格 540万円〜</div>
+        </div>
+      </div>
+      <!-- 伊豆 -->
+      <div class="location-card">
+        <svg viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lc2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a6898"/><stop offset="100%" stop-color="#1a4878"/></linearGradient></defs>
+          <rect width="400" height="533" fill="url(#lc2)"/>
+          <rect x="0" y="250" width="400" height="283" fill="#2a5888" opacity=".8"/>
+          <path d="M0 270 Q100 255 200 265 Q300 275 400 260 L400 533 L0 533Z" fill="#3a68a0" opacity=".5"/>
+          <path d="M0 300 Q100 290 200 298 Q300 306 400 292 L400 533 L0 533Z" fill="#2a5888" opacity=".4"/>
+          <path d="M0 360 Q200 340 400 356 L400 533 L0 533Z" fill="#88b0c0" opacity=".4"/>
+          <rect x="120" y="160" width="160" height="130" fill="#f8f0e0" rx="3"/>
+          <polygon points="108,160 200,90 292,160" fill="#c8a060"/>
+          <rect x="148" y="180" width="50" height="50" fill="#90c0d8" opacity=".85" rx="2"/>
+          <rect x="202" y="180" width="50" height="50" fill="#90c0d8" opacity=".85" rx="2"/>
+          <rect x="160" y="230" width="80" height="60" fill="#7a5828" rx="2"/>
+        </svg>
+        <div class="location-card-overlay"></div>
+        <div class="location-card-text">
+          <div class="location-card-area">Shizuoka</div>
+          <div class="location-card-name">伊豆</div>
+          <div class="location-card-price">本体価格 450万円〜</div>
+        </div>
+      </div>
+      <!-- 那須 -->
+      <div class="location-card">
+        <svg viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lc3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b85030"/><stop offset="50%" stop-color="#d87040"/><stop offset="100%" stop-color="#6a4020"/></linearGradient></defs>
+          <rect width="400" height="533" fill="url(#lc3)"/>
+          <ellipse cx="100" cy="300" rx="130" ry="200" fill="#a83820" opacity=".6"/>
+          <ellipse cx="300" cy="280" rx="120" ry="190" fill="#c04828" opacity=".55"/>
+          <path d="M0 360 Q200 340 400 358 L400 533 L0 533Z" fill="#4a2818"/>
+          <rect x="130" y="250" width="140" height="120" fill="#f0e8d8" rx="3"/>
+          <polygon points="118,250 200,180 282,250" fill="#5a3018"/>
+          <rect x="155" y="268" width="40" height="40" fill="#a8c4d8" opacity=".8" rx="2"/>
+          <rect x="205" y="268" width="40" height="40" fill="#a8c4d8" opacity=".8" rx="2"/>
+          <rect x="162" y="308" width="76" height="62" fill="#6a3820" rx="2"/>
+        </svg>
+        <div class="location-card-overlay"></div>
+        <div class="location-card-text">
+          <div class="location-card-area">Tochigi</div>
+          <div class="location-card-name">那須</div>
+          <div class="location-card-price">本体価格 480万円〜</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VOICE ── -->
+<section class="voice-section" id="voice">
+  <div class="voice-inner">
+    <div class="voice-header">
+      <h2>オーナーの声</h2>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="voice-quote">週末に思い立って予約して、翌朝には軽井沢の森の中にいる。この自由さは、普通の別荘では絶対に得られなかった体験です。</div>
+        <div class="voice-divider"></div>
+        <div class="voice-name">T.K. さん</div>
+        <div class="voice-attr">東京都在住・40代・経営者</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-quote">管理の手間が一切ないのが一番の魅力。訪れるたびに綺麗な状態で迎えてくれて、本当に「帰ってきた」と感じられる場所になりました。</div>
+        <div class="voice-divider"></div>
+        <div class="voice-name">M.S. さん</div>
+        <div class="voice-attr">神奈川県在住・50代・医師</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-quote">子供たちが自然の中で思いきり遊ぶ姿を見て、ここを持って本当に良かったと思います。四季ごとに違う顔を見せてくれる場所が、家族の宝になりました。</div>
+        <div class="voice-divider"></div>
+        <div class="voice-name">Y.N. さん</div>
+        <div class="voice-attr">大阪府在住・40代・会社員</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="cta-section" id="cta">
+  <div class="cta-bg">
+    <svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="200" cy="300" rx="300" ry="400" fill="#4a7a40" opacity=".4"/>
+      <ellipse cx="1400" cy="300" rx="280" ry="380" fill="#3a6830" opacity=".35"/>
+      <ellipse cx="800" cy="500" rx="400" ry="200" fill="#2a5020" opacity=".3"/>
+    </svg>
+  </div>
+  <div class="cta-inner">
+    <div class="cta-label">Start Your Journey</div>
+    <h2>自然が、もうひとつの<br>家になる。</h2>
+    <p>まずは無料の資料でシェア別荘の仕組みをご確認ください。<br>
+    個別相談会も随時受け付けております。</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-cream">無料資料を請求する</a>
+      <a href="#" class="btn-ghost-cream">個別相談を申し込む</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">SORA <span>Villa</span></div>
+    <div class="footer-links">
+      <a href="#">物件一覧</a>
+      <a href="#">サービス概要</a>
+      <a href="#">よくある質問</a>
+      <a href="#">会社概要</a>
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">特定商取引法に基づく表記</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 SORA Villa Co., Ltd. All rights reserved.</div>
+</footer>
+
+<script>
+// ── NAV スクロール ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── ヒーロー スライドショー ──
+const slides = document.querySelectorAll('.slide');
+const dots   = document.querySelectorAll('.slide-dot');
+let current  = 0;
+let timer;
+
+function goSlide(n) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('prev');
+  dots[current].classList.remove('active');
+  setTimeout(() => slides[(current + slides.length) % slides.length].classList.remove('prev'), 1600);
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+
+function nextSlide() { goSlide(current + 1); }
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
+}
+
+startTimer();
+
+// ユーザー操作後もオートプレイ継続
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => { goSlide(i); startTimer(); });
+});
+
+// ── スクロールフェードイン ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = 1;
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.benefit-text, .intro-inner, .voice-card, .plan-card').forEach(el => {
+  el.style.opacity = 0;
+  el.style.transform = 'translateY(28px)';
+  el.style.transition = 'opacity .9s ease, transform .9s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
+'''
+
+with open('/mnt/user-data/outputs/villa-lp.html', 'w') as f:
+    f.write(html)
+print("done", len(html))
+PYEOF
