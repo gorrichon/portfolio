@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIライティング代行サービス | 最短翌日納品・記事1本3,000円〜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2e4a;
+    --navy-light: #243d60;
+    --accent: #e8a020;
+    --accent-light: #f5b93a;
+    --text: #333333;
+    --text-light: #666666;
+    --bg: #f8f8f6;
+    --white: #ffffff;
+    --border: #e0e0d8;
+    --green: #2a7a4b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--navy);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    color: var(--white);
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+  }
+  .logo span { color: var(--accent); }
+  nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 20px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent-light); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #2e5080 100%);
+    padding: 60px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,160,32,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif JP', serif;
+    color: var(--white);
+    font-size: clamp(22px, 5vw, 36px);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .hero h1 em {
+    color: var(--accent-light);
+    font-style: normal;
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  .hero-price {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: inline-block;
+    padding: 18px 36px;
+    margin-bottom: 30px;
+  }
+  .hero-price .price-label {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .hero-price .price-num {
+    color: var(--accent-light);
+    font-size: clamp(32px, 8vw, 52px);
+    font-weight: 900;
+    line-height: 1;
+  }
+  .hero-price .price-num small { font-size: 18px; }
+  .hero-price .price-num span { font-size: 18px; }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .hero-stat {
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-stat::before { content: '✓'; color: var(--accent-light); font-weight: 700; }
+
+  /* ===== CTA BUTTONS ===== */
+  .cta-wrap {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+    box-shadow: 0 4px 16px rgba(232,160,32,0.4);
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.8); }
+
+  /* ===== ENTRY CARDS ===== */
+  .entry-section {
+    background: var(--white);
+    padding: 0 20px;
+  }
+  .entry-cards {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+  .entry-card {
+    padding: 28px 24px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .entry-card:last-child { border-right: none; }
+  .entry-card-icon { font-size: 30px; margin-bottom: 10px; }
+  .entry-card-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .tag-recommend { background: #fff3e0; color: #e65100; }
+  .tag-free { background: #e8f5e9; color: #2e7d32; }
+  .entry-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .entry-card ul { list-style: none; text-align: left; }
+  .entry-card ul li {
+    font-size: 13px;
+    color: var(--text-light);
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .entry-card ul li::before { content: '・'; position: absolute; left: 0; }
+  .entry-card .card-btn {
+    display: inline-block;
+    margin-top: 14px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 22px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .entry-card .card-btn:hover { background: var(--navy-light); }
+
+  /* ===== SECTION WRAPPER ===== */
+  .section {
+    padding: 60px 20px;
+  }
+  .section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .section-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+    margin-bottom: 40px;
+  }
+  .section-title span { color: var(--accent); }
+
+  /* ===== PROBLEM SECTION ===== */
+  .problem-section { background: #f0f4f8; }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .problem-item {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 4px solid #c0392b;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .problem-item p { font-size: 14px; color: var(--text); }
+  .problem-item p::before { content: '😔 '; }
+
+  /* ===== SOLUTION ===== */
+  .solution-box {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 36px;
+    text-align: center;
+    margin-top: 30px;
+  }
+  .solution-box p {
+    color: rgba(255,255,255,0.85);
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .solution-box h3 {
+    color: var(--accent-light);
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 900;
+    font-family: 'Noto Serif JP', serif;
+  }
+
+  /* ===== FEATURES ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 28px 24px;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .feature-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .feature-card p { font-size: 13px; color: var(--text-light); }
+
+  /* ===== PLANS ===== */
+  .plans-section { background: #f0f4f8; }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .plan-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px 24px;
+    border: 2px solid var(--border);
+    text-align: center;
+    position: relative;
+  }
+  .plan-card.recommended {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(232,160,32,0.2);
+  }
+  .plan-rec-badge {
+    position: absolute;
+    top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .plan-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .plan-price {
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .plan-price small { font-size: 16px; font-weight: 400; }
+  .plan-price-note { font-size: 12px; color: var(--text-light); margin-bottom: 16px; }
+  .plan-desc { font-size: 13px; color: var(--text-light); margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
+  .plan-features { list-style: none; text-align: left; margin-bottom: 20px; }
+  .plan-features li {
+    font-size: 13px;
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .plan-features li::before {
+    content: '✓';
+    position: absolute; left: 0;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* ===== PRICE TABLE ===== */
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 30px;
+  }
+  .price-table th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .price-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .price-table tr:nth-child(even) td { background: #f5f7fa; }
+  .price-note { font-size: 12px; color: var(--text-light); margin-top: 12px; }
+
+  /* ===== FLOW ===== */
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .flow-step {
+    text-align: center;
+    padding: 24px 16px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '▶';
+    position: absolute;
+    right: -8px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 18px;
+  }
+  .flow-num {
+    width: 44px; height: 44px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 900;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+  }
+  .flow-step h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .flow-step p { font-size: 12px; color: var(--text-light); }
+
+  /* ===== FAQ ===== */
+  .faq-section { background: #f0f4f8; }
+  .faq-item {
+    background: var(--white);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+  }
+  .faq-q::before {
+    content: 'Q';
+    background: var(--navy);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 900;
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .faq-a {
+    padding: 0 20px 16px 54px;
+    font-size: 13px;
+    color: var(--text-light);
+    display: none;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    background: var(--navy);
+    padding: 60px 20px;
+    text-align: center;
+  }
+  .final-cta h2 {
+    font-family: 'Noto Serif JP', serif;
+    color: var(--white);
+    font-size: clamp(20px, 4vw, 28px);
+    margin-bottom: 12px;
+  }
+  .final-cta p { color: rgba(255,255,255,0.75); font-size: 14px; margin-bottom: 28px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #111827;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  footer p { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+  /* ===== STICKY CTA (mobile) ===== */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--accent);
+    padding: 12px 20px;
+    text-align: center;
+    z-index: 200;
+    display: none;
+  }
+  .sticky-cta a {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    nav { display: none; }
+    .flow-step:not(:last-child)::after { display: none; }
+    .sticky-cta { display: block; }
+    .entry-cards { grid-template-columns: 1fr; }
+    .entry-card { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">AI<span>ライティング</span>代行</div>
+    <nav>
+      <a href="#service">サービス</a>
+      <a href="#plans">料金</a>
+      <a href="#flow">ご利用の流れ</a>
+      <a href="#faq">よくある質問</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🤖 AI最新情報を毎日キャッチアップ</div>
+  <h1>AIの記事・ポスト作成、<br><em>全部おまかせください。</em></h1>
+  <p class="hero-sub">最新AIトレンドに精通したライターが、バズる記事・X投稿を代行します</p>
+  <div class="hero-price">
+    <div class="price-label">記事制作 月額スタートプラン</div>
+    <div class="price-num"><small>月</small>3<small>,000</small><span>円〜</span></div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">最短翌日納品</div>
+    <div class="hero-stat">相談・見積もり無料</div>
+    <div class="hero-stat">修正1回無料</div>
+    <div class="hero-stat">AI専門ライター対応</div>
+  </div>
+  <div class="cta-wrap">
+    <a href="#contact" class="btn-primary">📩 無料で相談する</a>
+    <a href="#plans" class="btn-secondary">料金を見る</a>
+  </div>
+</section>
+
+<!-- ENTRY CARDS -->
+<section class="entry-section">
+  <div class="entry-cards">
+    <div class="entry-card">
+      <div class="entry-card-icon">✍️</div>
+      <span class="entry-card-tag tag-recommend">おすすめ</span>
+      <h3>記事・ブログ代行</h3>
+      <ul>
+        <li>AIツール解説記事</li>
+        <li>SEO対応ライティング</li>
+        <li>1,000〜3,000字対応</li>
+      </ul>
+      <a href="#contact" class="card-btn">依頼する</a>
+    </div>
+    <div class="entry-card">
+      <div class="entry-card-icon">📱</div>
+      <span class="entry-card-tag tag-free">人気</span>
+      <h3>Xポスト代行</h3>
+      <ul>
+        <li>バズ狙いのスレッド作成</li>
+        <li>毎日投稿プランあり</li>
+        <li>最新AI情報を反映</li>
+      </ul>
+      <a href="#contact" class="card-btn">依頼する</a>
+    </div>
+    <div class="entry-card">
+      <div class="entry-card-icon">💬</div>
+      <span class="entry-card-tag tag-free">無料</span>
+      <h3>まずは相談</h3>
+      <ul>
+        <li>どんな内容でもOK</li>
+        <li>見積もりは無料</li>
+        <li>当日返信を心がけています</li>
+      </ul>
+      <a href="#contact" class="card-btn">相談する</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section problem-section" id="service">
+  <div class="section-inner">
+    <div class="section-label">Problem</div>
+    <h2 class="section-title">こんなお悩みは<span>ありませんか？</span></h2>
+    <div class="problem-grid">
+      <div class="problem-item"><p>AIの情報が多すぎて何から発信すればいいか分からない</p></div>
+      <div class="problem-item"><p>記事を書く時間がなく、SNS運用が止まっている</p></div>
+      <div class="problem-item"><p>AIの知識が浅くて、専門的な記事が書けない</p></div>
+      <div class="problem-item"><p>外注したいが、AIを理解しているライターが見つからない</p></div>
+      <div class="problem-item"><p>バズるポストの書き方がわからない</p></div>
+      <div class="problem-item"><p>情報収集だけで時間を取られ、本業に集中できない</p></div>
+    </div>
+    <div class="solution-box">
+      <p>そのお悩み、すべて解決できます。</p>
+      <h3>「AIを知り尽くしたライター」が<br>情報収集から執筆まで全部やります</h3>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">選ばれる<span>4つの理由</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-num">01 / SPEED</div>
+        <h3>🚀 最短翌日納品</h3>
+        <p>依頼いただいた内容を最速で仕上げます。急ぎの案件も柔軟に対応。まずはご相談ください。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02 / EXPERTISE</div>
+        <h3>🧠 AI専門の知識</h3>
+        <p>Claude、ChatGPT、Grok、Manus等の最新AIを毎日触って情報収集。専門性の高い記事を執筆できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03 / FORMAT</div>
+        <h3>📈 バズるフォーマット</h3>
+        <p>Xでバズっているポストの構成・フォーマットを研究・分析。エンゲージメントが高まる投稿を作成します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04 / COST</div>
+        <h3>💰 コスパ最強の価格</h3>
+        <p>AIを活用した効率的な制作フローで、品質を下げずにコストを抑えた価格設定を実現しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section plans-section" id="plans">
+  <div class="section-inner">
+    <div class="section-label">Plans</div>
+    <h2 class="section-title">料金プラン</h2>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">単発プラン</div>
+        <div class="plan-price"><small>1記事</small>3,000<small>円〜</small></div>
+        <div class="plan-price-note">（税込・文字数により変動）</div>
+        <div class="plan-desc">まずは試してみたい方向け。単発での記事・ポスト作成に対応します。</div>
+        <ul class="plan-features">
+          <li>記事 or Xポスト 1本</li>
+          <li>修正1回無料</li>
+          <li>3〜5営業日で納品</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;display:block;text-align:center;">依頼する</a>
+      </div>
+      <div class="plan-card recommended">
+        <div class="plan-rec-badge">⭐ 一番人気</div>
+        <div class="plan-name">月額プラン（記事4本）</div>
+        <div class="plan-price"><small>月</small>10,000<small>円〜</small></div>
+        <div class="plan-price-note">（税込 / 週1本ペース）</div>
+        <div class="plan-desc">継続的にSNS運用・ブログ更新したい方向け。毎週安定した投稿が可能になります。</div>
+        <ul class="plan-features">
+          <li>月4本の記事 or ポスト</li>
+          <li>テーマ提案サービス付き</li>
+          <li>修正2回まで無料</li>
+          <li>最短翌日〜3日で納品</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;display:block;text-align:center;">申し込む</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">フルサポートプラン</div>
+        <div class="plan-price"><small>月</small>30,000<small>円〜</small></div>
+        <div class="plan-price-note">（税込・内容により相談）</div>
+        <div class="plan-desc">SNS戦略から情報収集・記事作成・投稿管理まで、まるっとお任せしたい方向け。</div>
+        <ul class="plan-features">
+          <li>月12〜16本対応</li>
+          <li>AIトレンドリサーチ込み</li>
+          <li>修正回数無制限</li>
+          <li>優先対応・当日返信</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;display:block;text-align:center;">相談する</a>
+      </div>
+    </div>
+
+    <table class="price-table" style="margin-top:40px;">
+      <thead>
+        <tr>
+          <th>コンテンツ種別</th>
+          <th>文字数 / 数量</th>
+          <th>料金（税込）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Xポスト（単体）</td><td>〜280字</td><td>1,500円〜</td></tr>
+        <tr><td>Xスレッド投稿</td><td>5〜10ツイート</td><td>3,000円〜</td></tr>
+        <tr><td>ブログ・記事（短め）</td><td>1,000〜2,000字</td><td>3,000円〜</td></tr>
+        <tr><td>ブログ・記事（標準）</td><td>2,000〜4,000字</td><td>6,000円〜</td></tr>
+        <tr><td>ブログ・記事（長文）</td><td>4,000字〜</td><td>10,000円〜</td></tr>
+        <tr><td>note記事</td><td>2,000〜5,000字</td><td>5,000円〜</td></tr>
+      </tbody>
+    </table>
+    <p class="price-note">※テーマ・専門性・リサーチ量によって料金は変動します。まずはお気軽にご相談ください。<br>※お支払いはクレジットカード・銀行振込に対応しています。</p>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="section" id="flow">
+  <div class="section-inner">
+    <div class="section-label">Flow</div>
+    <h2 class="section-title">ご依頼の<span>流れ</span></h2>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <h3>お問い合わせ</h3>
+        <p>フォームまたはDMからご連絡ください。内容・希望納期をお伝えください。</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <h3>ヒアリング・見積</h3>
+        <p>ターゲット・トーン・参考記事などをヒアリングし、見積もりをお送りします。</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <h3>執筆・制作</h3>
+        <p>最新AI情報をリサーチし、ご要望に沿った記事・ポストを制作します。</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <h3>納品・修正</h3>
+        <p>納品後、修正のご要望があればお気軽にお申し付けください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+  <div class="section-inner">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">よくある<span>ご質問</span></h2>
+
+    <div class="faq-item open">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">どんなジャンルの記事に対応していますか？</div>
+      <div class="faq-a">Claude、ChatGPT、Gemini、Grok、Manus等のAIツール解説、AI副業・マネタイズ、生成AI活用法、最新AIニュース解説など、AI・テクノロジー全般に対応しています。他ジャンルはご相談ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">納品形式はどうなりますか？</div>
+      <div class="faq-a">テキスト形式（Word / Google ドキュメント / プレーンテキスト）でお渡しします。Xへの投稿代行ご希望の場合はご相談ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">急ぎの依頼にも対応できますか？</div>
+      <div class="faq-a">はい、最短で翌日納品も可能です（内容・文字数により変動）。お急ぎの場合はその旨を最初にお伝えください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">AIで生成した文章をそのまま納品しますか？</div>
+      <div class="faq-a">いいえ。AIはリサーチ・効率化のために活用しますが、必ず人間による確認・加筆・編集を行った上で納品しています。品質には責任を持って対応します。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">支払い方法は何がありますか？</div>
+      <div class="faq-a">クレジットカード（VISA・Mastercard・JCB等）および銀行振込に対応しています。詳細はお問い合わせ後にご案内します。</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contact">
+  <h2>まずは無料でご相談ください</h2>
+  <p>見積もり・相談は完全無料です。お気軽にDMまたはフォームからどうぞ。</p>
+  <div class="cta-wrap">
+    <a href="mailto:info@example.com" class="btn-primary">📩 メールで相談する</a>
+    <a href="https://x.com" class="btn-secondary">𝕏 DM で相談する</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 AIライティング代行サービス　｜　特定商取引法に基づく表記　｜　プライバシーポリシー</p>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta">
+  <a href="#contact">📩 無料で相談する →</a>
+</div>
+
+<script>
+  // FAQ toggle は HTML の onclick で処理済み
+</script>
+</body>
+</html>
