@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>占い自動算出ツール｜数秘術・四柱推命</title>
+  <style>
+    :root {
+      --primary: #6c3fc5;
+      --primary-light: #9b6dea;
+      --accent: #e8a0f0;
+      --gold: #d4a843;
+      --dark: #1a1033;
+      --card-bg: rgba(255,255,255,0.06);
+      --text: #f0eaff;
+      --muted: #a89cc8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: linear-gradient(135deg, #0f0824 0%, #1a1033 40%, #0d1b3e 100%);
+      min-height: 100vh;
+      color: var(--text);
+      padding: 40px 16px;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.5) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+    header { text-align: center; margin-bottom: 48px; }
+    .header-icon { font-size: 48px; margin-bottom: 12px; display: block; filter: drop-shadow(0 0 16px rgba(212,168,67,0.8)); }
+    header h1 {
+      font-size: 28px; font-weight: 700; letter-spacing: 0.1em;
+      background: linear-gradient(90deg, var(--gold), var(--accent), var(--primary-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 8px;
+    }
+    header p { color: var(--muted); font-size: 14px; letter-spacing: 0.05em; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(156,109,234,0.25);
+      border-radius: 20px; padding: 36px 40px; margin-bottom: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .card-title {
+      font-size: 15px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent);
+      margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
+    }
+    .card-title::before {
+      content: ''; display: inline-block; width: 4px; height: 18px;
+      background: linear-gradient(180deg, var(--primary-light), var(--accent)); border-radius: 2px;
+    }
+    .input-group { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+    .input-field { flex: 1; min-width: 120px; }
+    .input-field label { display: block; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 8px; }
+    .input-field select, .input-field input[type="number"] {
+      width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(156,109,234,0.3);
+      border-radius: 12px; color: var(--text); font-size: 18px; padding: 14px 16px;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s; appearance: none; text-align: center;
+    }
+    .input-field select:focus, .input-field input[type="number"]:focus {
+      border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(108,63,197,0.25);
+    }
+    .input-field select option { background: #1a1033; }
+    .btn-calc {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; border: none; border-radius: 14px; padding: 14px 36px;
+      font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.1em;
+      box-shadow: 0 4px 20px rgba(108,63,197,0.5); transition: transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap; margin-top: 8px;
+    }
+    .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(108,63,197,0.7); }
+    .btn-calc:active { transform: translateY(0); }
+    .error-msg { color: #ff8fa3; font-size: 13px; margin-top: 12px; display: none; }
+    #result-section { display: none; }
+    .num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+    .num-card {
+      background: rgba(108,63,197,0.15); border: 1px solid rgba(156,109,234,0.2);
+      border-radius: 16px; padding: 20px; text-align: center; transition: transform 0.2s;
+    }
+    .num-card:hover { transform: translateY(-3px); }
+    .num-label { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 8px; }
+    .num-value {
+      font-size: 52px; font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; margin-bottom: 8px;
+    }
+    .num-keyword { font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+    .num-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+    .master-badge {
+      display: inline-block; background: linear-gradient(135deg, var(--gold), #f0c060);
+      color: #1a1033; font-size: 10px; font-weight: 700; padding: 2px 8px;
+      border-radius: 20px; letter-spacing: 0.1em; margin-bottom: 6px;
+    }
+    .shichu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .pillar-card {
+      background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.25);
+      border-radius: 12px; padding: 16px 8px; text-align: center;
+    }
+    .pillar-label { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 10px; }
+    .pillar-stem {
+      font-size: 28px; font-weight: 900; color: var(--gold); margin-bottom: 4px;
+      min-height: 40px; display: flex; align-items: center; justify-content: center;
+    }
+    .pillar-branch {
+      font-size: 22px; color: var(--accent); font-weight: 700;
+      min-height: 36px; display: flex; align-items: center; justify-content: center;
+    }
+    .pillar-hidden { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .placeholder-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(212,168,67,0.12); border: 1px dashed rgba(212,168,67,0.4);
+      border-radius: 8px; color: var(--gold); font-size: 12px; padding: 10px 16px;
+      margin-top: 8px; width: 100%; justify-content: center;
+    }
+    .prompt-box {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(156,109,234,0.2);
+      border-radius: 12px; padding: 20px; font-size: 13px; line-height: 1.9;
+      color: var(--text); white-space: pre-wrap; word-break: break-all;
+    }
+    .prompt-copy-btn {
+      background: transparent; border: 1px solid rgba(156,109,234,0.5); border-radius: 8px;
+      color: var(--primary-light); font-size: 12px; padding: 6px 16px; cursor: pointer;
+      float: right; margin-bottom: 12px; transition: background 0.2s;
+    }
+    .prompt-copy-btn:hover { background: rgba(108,63,197,0.2); }
+    .calc-steps {
+      background: rgba(255,255,255,0.03); border-radius: 10px; padding: 16px 20px;
+      font-size: 12px; color: var(--muted); line-height: 2; font-family: monospace;
+    }
+    .footer-note { text-align: center; color: var(--muted); font-size: 11px; margin-top: 40px; line-height: 2; }
+    @media (max-width: 540px) {
+      .card { padding: 24px 20px; }
+      .shichu-grid { grid-template-columns: repeat(2, 1fr); }
+      header h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <span class="header-icon">🔮</span>
+    <h1>占い自動算出ツール</h1>
+    <p>数秘術 &amp; 四柱推命｜生年月日を入力するだけで鑑定結果が表示されます</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">生年月日を入力</div>
+    <div class="input-group">
+      <div class="input-field" style="max-width:130px">
+        <label>年（西暦）</label>
+        <input type="number" id="inp-year" placeholder="1990" min="1900" max="2025" />
+      </div>
+      <div class="input-field" style="max-width:100px">
+        <label>月</label>
+        <select id="inp-month">
+          <option value="">月</option>
+          <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+          <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+          <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+          <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+        </select>
+      </div>
+      <div class="input-field" style="max-width:100px">
+        <label>日</label>
+        <select id="inp-day"><option value="">日</option></select>
+      </div>
+      <button class="btn-calc" onclick="calculate()">✨ 鑑定する</button>
+    </div>
+    <div class="error-msg" id="error-msg">⚠ 生年月日を正しく入力してください。</div>
+  </div>
+
+  <div id="result-section">
+    <div class="card">
+      <div class="card-title">数秘術（ニューメロロジー）鑑定結果</div>
+      <div class="num-grid" id="num-grid"></div>
+      <div style="margin-top:20px">
+        <div class="card-title" style="font-size:13px; margin-bottom:12px;">算出ステップ</div>
+        <div class="calc-steps" id="calc-steps"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">四柱推命 鑑定結果</div>
+      <div class="shichu-grid" id="shichu-grid"></div>
+      <div class="placeholder-badge">🔒 四柱推命の詳細ロジックは契約締結後に実装予定です</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Gemini 占いプロンプト（コピー用）</div>
+      <button class="prompt-copy-btn" onclick="copyPrompt()">📋 コピー</button>
+      <div style="clear:both"></div>
+      <div class="prompt-box" id="prompt-box"></div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    ※ このツールはデモ版です。四柱推命の算出ロジックは契約後に実装されます。<br>
+    ※ 数秘術の計算はピタゴラス数秘術に基づいています。
+  </div>
+</div>
+
+<script>
+const numData = {
+  1:{keyword:'リーダーシップ',desc:'独立心が強く、先頭に立って物事を切り開く力を持っています。'},
+  2:{keyword:'協調・感受性',desc:'思いやりがあり、チームワークや人との絆を大切にします。'},
+  3:{keyword:'表現・創造',desc:'明るく創造的で、言葉や芸術で人を惹きつける才能があります。'},
+  4:{keyword:'安定・誠実',desc:'地に足のついた努力家。信頼と堅実さで着実に結果を出します。'},
+  5:{keyword:'自由・変化',desc:'好奇心旺盛で変化を愛します。冒険心と柔軟性が魅力です。'},
+  6:{keyword:'愛・責任',desc:'家族や仲間を大切にする愛情深い人。奉仕の精神に富みます。'},
+  7:{keyword:'探求・精神性',desc:'知的で哲学的。内省と探求によって深い洞察を得ます。'},
+  8:{keyword:'力・達成',desc:'物質的成功と権力を引き寄せる強いエネルギーを持ちます。'},
+  9:{keyword:'完成・博愛',desc:'人類への奉仕と慈悲心。広い視野で世界を見渡します。'},
+  11:{keyword:'マスター・直感',desc:'強力な直感力と霊感を持つマスターナンバー。高い使命感があります。'},
+  22:{keyword:'マスター・建築家',desc:'大きなビジョンを現実化する力を持つマスターナンバー。'},
+  33:{keyword:'マスター・教師',desc:'無条件の愛と癒しで世界に奉仕するマスターナンバー。'},
+};
+
+const monthSel = document.getElementById('inp-month');
+const daySel = document.getElementById('inp-day');
+monthSel.addEventListener('change', updateDays);
+document.getElementById('inp-year').addEventListener('change', updateDays);
+
+function updateDays() {
+  const y = parseInt(document.getElementById('inp-year').value) || 2000;
+  const m = parseInt(monthSel.value) || 1;
+  const days = new Date(y, m, 0).getDate();
+  const cur = parseInt(daySel.value) || 0;
+  daySel.innerHTML = '<option value="">日</option>';
+  for (let i = 1; i <= days; i++) {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = i + '日';
+    if (i === cur) opt.selected = true;
+    daySel.appendChild(opt);
+  }
+}
+updateDays();
+
+function reduceNum(n) {
+  while (n > 9 && n !== 11 && n !== 22 && n !== 33) {
+    n = String(n).split('').reduce((a,b) => a + parseInt(b), 0);
+  }
+  return n;
+}
+function sumDigits(str) { return str.split('').reduce((a,b) => a + parseInt(b), 0); }
+
+function calculate() {
+  const y = document.getElementById('inp-year').value.trim();
+  const m = document.getElementById('inp-month').value;
+  const d = document.getElementById('inp-day').value;
+  const err = document.getElementById('error-msg');
+  if (!y || !m || !d || y.length !== 4) {
+    err.style.display = 'block';
+    document.getElementById('result-section').style.display = 'none';
+    return;
+  }
+  err.style.display = 'none';
+
+  let lpRaw = sumDigits(y) + sumDigits(String(m).padStart(2,'0')) + sumDigits(String(d).padStart(2,'0'));
+  const lifePathNum = reduceNum(lpRaw);
+  const birthdayNum = reduceNum(parseInt(d));
+  const today = new Date();
+  const pyRaw = sumDigits(String(m).padStart(2,'0')) + sumDigits(String(d).padStart(2,'0')) + sumDigits(String(today.getFullYear()));
+  const personalYearNum = reduceNum(pyRaw);
+  const soulRaw = sumDigits(String(m).padStart(2,'0')) + sumDigits(y.slice(0,2));
+  const soulNum = reduceNum(soulRaw);
+
+  const steps = [
+    `【運命数（ライフパスナンバー）計算】`,
+    `${y}年 ${m}月 ${d}日`,
+    `→ 年：${y.split('').join('+')} = ${sumDigits(y)}`,
+    `→ 月：${String(m).padStart(2,'0').split('').join('+')} = ${sumDigits(String(m).padStart(2,'0'))}`,
+    `→ 日：${String(d).padStart(2,'0').split('').join('+')} = ${sumDigits(String(d).padStart(2,'0'))}`,
+    `→ 合計：${lpRaw} → 桁を足して → ${lifePathNum}`,
+    ``,`【誕生日数】`,`${d} → ${birthdayNum}`,
+    ``,`【個人年数（${today.getFullYear()}年）】`,
+    `月(${m}) + 日(${d}) + 年(${today.getFullYear()}) = ${pyRaw} → ${personalYearNum}`,
+  ].join('\n');
+  document.getElementById('calc-steps').textContent = steps;
+
+  const numCards = [
+    {label:'運命数（ライフパスナンバー）', num:lifePathNum},
+    {label:'誕生日数', num:birthdayNum},
+    {label:`個人年数（${today.getFullYear()}年）`, num:personalYearNum},
+    {label:'魂の数（ソウルナンバー）', num:soulNum},
+  ];
+  document.getElementById('num-grid').innerHTML = numCards.map(c => {
+    const info = numData[c.num] || {keyword:'—', desc:'詳細ロジックを設定してください。'};
+    const isMaster = [11,22,33].includes(c.num);
+    return `<div class="num-card">
+      <div class="num-label">${c.label}</div>
+      ${isMaster ? '<div class="master-badge">✦ MASTER NUMBER</div>' : ''}
+      <div class="num-value">${c.num}</div>
+      <div class="num-keyword">${info.keyword}</div>
+      <div class="num-desc">${info.desc}</div>
+    </div>`;
+  }).join('');
+
+  const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+  const BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  const stems = [
+    STEMS[((parseInt(y)-4)%10+10)%10],
+    STEMS[((parseInt(m)+1)%10+10)%10],
+    STEMS[(parseInt(d)%10+10)%10], '—',
+  ];
+  const branches = [
+    BRANCHES[((parseInt(y)-4)%12+12)%12],
+    BRANCHES[((parseInt(m)+1)%12+12)%12],
+    BRANCHES[(parseInt(d)%12+12)%12], '—',
+  ];
+  const pillars = ['年柱','月柱','日柱','時柱'];
+  document.getElementById('shichu-grid').innerHTML = pillars.map((p,i) => `
+    <div class="pillar-card">
+      <div class="pillar-label">${p}</div>
+      <div class="pillar-stem">${stems[i]}</div>
+      <div class="pillar-branch">${branches[i]}</div>
+      <div class="pillar-hidden">${i < 3 ? '（簡易表示）' : '時刻不要'}</div>
+    </div>`).join('');
+
+  const promptText =
+`以下は私の数秘術・四柱推命の鑑定結果です。この情報をもとに、私の性格・才能・${today.getFullYear()}年の運勢・人間関係・仕事運について詳しく鑑定してください。
+
+【生年月日】${y}年${m}月${d}日
+
+【数秘術】
+・運命数（ライフパスナンバー）：${lifePathNum}（${(numData[lifePathNum]||{}).keyword||'—'}）
+・誕生日数：${birthdayNum}（${(numData[birthdayNum]||{}).keyword||'—'}）
+・個人年数（${today.getFullYear()}年）：${personalYearNum}（${(numData[personalYearNum]||{}).keyword||'—'}）
+
+【四柱推命（簡易）】
+・年柱：${stems[0]}${branches[0]}
+・月柱：${stems[1]}${branches[1]}
+・日柱：${stems[2]}${branches[2]}
+
+上記のデータをふまえ、私の強み・課題・今年特に意識すべきことをわかりやすく教えてください。`;
+
+  document.getElementById('prompt-box').textContent = promptText;
+  document.getElementById('result-section').style.display = 'block';
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-box').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.prompt-copy-btn');
+    btn.textContent = '✅ コピーしました';
+    setTimeout(() => btn.textContent = '📋 コピー', 2000);
+  });
+}
+</script>
+</body>
+</html>
