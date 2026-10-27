@@ -63,7 +63,7 @@ a{color:inherit;text-decoration:none}
 .scroll-cue i::after{content:"";position:absolute;left:0;top:-50%;width:100%;height:50%;background:var(--accent);animation:drip 1.6s infinite}
 @keyframes drip{to{top:100%}}
 /* 点の幾何学模様（文字の下で動く） */
-.hero{overflow:hidden}
+.hero{overflow:hidden;padding-bottom:8px}   /* SCROLL と ABOUT の間を詰める（元は120px） */
 .hero > .wrap,.hero > .marquee{position:relative;z-index:1}
 #heroDots{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.2s .4s}
 #heroDots.on{opacity:1}
