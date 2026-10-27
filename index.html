@@ -131,9 +131,6 @@ section{padding:120px 0}
 .reel .frame{width:min(100%,var(--phone));margin-inline:auto;border:9px solid #111;border-radius:36px;box-shadow:0 0 0 2px #3a3a3a,0 0 0 3px #111,0 18px 30px -18px rgba(0,0,0,.45)}
 .reel:hover .frame{box-shadow:0 0 0 2px #3a3a3a,0 0 0 3px #111,0 28px 40px -20px rgba(0,0,0,.5)}
 .reel .frame::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:30%;height:16px;border-radius:999px;background:#000;z-index:3}
-.reel .badge{top:32px;left:10px;font-size:10px;padding:3px 8px}
-.reel .time{bottom:10px;right:10px}
-.reel .play i{width:48px;height:48px}
 .reel .meta{max-width:var(--phone);margin-inline:auto}
 .reel .badge{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--latin);font-size:11px;font-weight:800;letter-spacing:.1em;background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px}
 .reel .time{position:absolute;bottom:12px;right:12px;z-index:2;font-family:var(--latin);font-size:11px;color:#fff;background:rgba(0,0,0,.5);padding:2px 8px;border-radius:4px}
@@ -141,6 +138,10 @@ section{padding:120px 0}
 .reel .play i{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center}
 .reel .play i::after{content:"";border-left:16px solid var(--ink);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
 .reel.playing .play{opacity:0}
+/* iPhone枠用の調整（上の基本設定より後ろに置くこと） */
+.reel .badge{top:30px;left:10px;font-size:10px;padding:3px 8px}   /* R.1 などの短い表記で、上部の黒い楕円に重ならない */
+.reel .time{bottom:10px;right:10px}
+.reel .play i{width:48px;height:48px}
 .reel .meta{padding:18px 4px 0}
 .reel .meta small{font-family:var(--latin);font-size:11px;font-weight:800;letter-spacing:.15em;color:var(--accent)}
 .reel .meta h4{font-size:17px;font-weight:700;line-height:1.5;margin:4px 0 10px}
@@ -273,7 +274,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
     <div class="reels">
       <article class="reel reveal">
         <div class="frame">
-          <span class="badge">REEL 01</span><span class="time">0:23</span>
+          <span class="badge">R.1</span><span class="time">0:23</span>
           <video src="assets/reel-01.mp4" poster="assets/reel-01.jpg" muted loop playsinline preload="metadata"></video>
           <div class="play"><i></i></div>
           <div class="ph"><b>REEL 01</b>assets/reel-01.mp4<br>9:16</div>
@@ -287,7 +288,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
       </article>
       <article class="reel reveal">
         <div class="frame">
-          <span class="badge">REEL 02</span><span class="time">0:35</span>
+          <span class="badge">R.2</span><span class="time">0:35</span>
           <video src="assets/reel-02.mp4" poster="assets/reel-02.jpg" muted loop playsinline preload="metadata"></video>
           <div class="play"><i></i></div>
           <div class="ph"><b>REEL 02</b>assets/reel-02.mp4<br>9:16</div>
@@ -301,7 +302,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
       </article>
       <article class="reel reveal">
         <div class="frame">
-          <span class="badge">REEL 03</span><span class="time">0:32</span>
+          <span class="badge">R.3</span><span class="time">0:32</span>
           <video src="assets/reel-03.mp4" poster="assets/reel-03.jpg" muted loop playsinline preload="metadata"></video>
           <div class="play"><i></i></div>
           <div class="ph"><b>REEL 03</b>assets/reel-03.mp4<br>9:16</div>
@@ -315,7 +316,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
       </article>
       <article class="reel reveal">
         <div class="frame">
-          <span class="badge">REEL 04</span><span class="time">0:43</span>
+          <span class="badge">R.4</span><span class="time">0:43</span>
           <video src="assets/reel-04.mp4" poster="assets/reel-04.jpg" muted loop playsinline preload="metadata"></video>
           <div class="play"><i></i></div>
           <div class="ph"><b>REEL 04</b>assets/reel-04.mp4<br>9:16</div>
