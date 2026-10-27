@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Takashi Wakayama Portfolio</title>
+<meta name="description" content="動画編集・SNS投稿・リール動画のポートフォリオ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   カラー・フォント設定（ここを変えると全体の色が変わります）
+   ========================================================= */
+:root{
+  --bg:#F6F5F1;        /* 背景（オフホワイト） */
+  --ink:#111111;       /* 文字・線（黒） */
+  --sub:#6B6B6B;       /* 補足文字（グレー） */
+  --line:#DCDAD3;      /* 罫線 */
+  --card:#FFFFFF;      /* カード背景 */
+  --accent:#FF5A1F;    /* アクセント（オレンジ）*/
+  --display:"Anton", "Noto Sans JP", sans-serif;
+  --latin:"Inter", "Noto Sans JP", sans-serif;
+  --jp:"Noto Sans JP", sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--jp);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+
+/* ---------- ナビ ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(246,245,241,.88);backdrop-filter:blur(10px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--display);font-size:22px;letter-spacing:.06em}
+.logo span{color:var(--accent)}
+.nav ul{display:flex;gap:28px;list-style:none;font-family:var(--latin);font-size:13px;font-weight:600;letter-spacing:.08em}
+.nav ul a{position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav ul a:hover::after{transform:scaleX(1)}
+@media (max-width:720px){.nav ul{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:64px;position:relative}
+.hero .eyebrow{font-family:var(--latin);font-weight:600;font-size:13px;letter-spacing:.3em;color:var(--sub);display:flex;align-items:center;gap:12px}
+.hero .eyebrow::before{content:"";width:40px;height:2px;background:var(--accent)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,13vw,190px);line-height:.92;letter-spacing:.01em;margin:24px 0 28px;text-transform:uppercase}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row > span{display:inline-block;transform:translateY(105%);animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .row:nth-child(2) > span{animation-delay:.12s}
+.hero h1 .row:nth-child(3) > span{animation-delay:.24s}
+/* SNS Design：Instagram風グラデーション（紫 → ピンク → オレンジ → 黄色） */
+.hero h1 .outline{color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(100deg,#741AFA 0%,#FF30C4 36%,#FF5D21 70%,#FFD735 100%);-webkit-background-clip:text;background-clip:text;padding-right:.04em}
+.hero h1 .dot{color:var(--accent)}
+@keyframes rise{to{transform:none}}
+.hero .lead{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:flex-end;justify-content:space-between}
+.hero .lead p{max-width:520px;font-size:15px;color:var(--sub)}
+.hero .lead strong{color:var(--ink);font-size:20px;display:block;margin-bottom:4px}
+.scroll-cue{font-family:var(--latin);font-size:12px;letter-spacing:.25em;display:flex;align-items:center;gap:10px}
+.scroll-cue i{width:1px;height:48px;background:var(--ink);position:relative;overflow:hidden}
+.scroll-cue i::after{content:"";position:absolute;left:0;top:-50%;width:100%;height:50%;background:var(--accent);animation:drip 1.6s infinite}
+@keyframes drip{to{top:100%}}
+/* 点の幾何学模様（文字の下で動く） */
+.hero{overflow:hidden}
+.hero > .wrap,.hero > .marquee{position:relative;z-index:1}
+#heroDots{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.2s .4s}
+#heroDots.on{opacity:1}
+
+/* ---------- マーキー ---------- */
+.marquee{background:var(--ink);color:var(--bg);overflow:hidden;padding:18px 0;transform:rotate(-1.5deg);margin:40px -20px}
+.marquee .track{display:flex;width:max-content;animation:scroll 28s linear infinite}
+.marquee span{font-family:var(--display);font-size:clamp(28px,4vw,44px);letter-spacing:.04em;padding-right:40px;white-space:nowrap}
+.marquee span b{color:var(--accent);font-weight:400}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- セクション共通 ---------- */
+section{padding:120px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid var(--ink);padding-bottom:20px;margin-bottom:56px;flex-wrap:wrap}
+.sec-head .num{font-family:var(--latin);font-weight:800;font-size:14px;color:var(--accent);letter-spacing:.1em}
+.sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(48px,8vw,96px);line-height:1;letter-spacing:.02em;text-transform:uppercase}
+.sec-head p{font-size:14px;color:var(--sub);text-align:right}
+@media (max-width:720px){.sec-head p{text-align:left}}
+
+/* スクロール表示アニメーション */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.marquee .track,.hero h1 .row>span{animation:none;transform:none}}
+
+/* ---------- ABOUT ---------- */
+.about{display:grid;grid-template-columns:340px 1fr;gap:72px;align-items:center}
+@media (max-width:860px){.about{grid-template-columns:1fr;gap:40px;justify-items:center}}
+/* 丸い写真＋装飾枠（細い線の外枠と、ゆっくり回るオレンジの弧） */
+.photo-box{position:relative;width:280px;aspect-ratio:1;margin:30px}
+.photo-box::before{content:"";position:absolute;inset:-18px;border:1px solid var(--ink);border-radius:50%}
+.photo-box::after{content:"";position:absolute;inset:-30px;border-radius:50%;border:3px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent);animation:spin 12s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.photo-box::after{animation:none}}
+.photo{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:var(--card);border:6px solid var(--card);box-shadow:0 10px 30px -12px rgba(0,0,0,.3)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.photo-box .dot{position:absolute;right:14px;bottom:14px;width:22px;height:22px;border-radius:50%;background:var(--accent);z-index:2}
+/* 点が集まって写真になる演出（canvas を写真の上に重ねる） */
+.photo-box canvas{position:absolute;inset:-60px;width:calc(100% + 120px);height:calc(100% + 120px);z-index:3;pointer-events:none;transition:opacity .6s}
+.photo-box .photo{transition:opacity .6s}
+.photo-box.building .photo{opacity:0}
+.photo-box.done canvas{opacity:0}
+.photo-box{cursor:pointer}
+.about h3{font-size:clamp(28px,4vw,40px);font-weight:900;line-height:1.3}
+.about .kana{font-family:var(--latin);font-size:13px;letter-spacing:.2em;color:var(--sub);margin:6px 0 28px}
+.about .bio{font-size:15px;margin-bottom:36px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.facts div{padding:20px 0;border-bottom:1px solid var(--line)}
+.facts b{font-family:var(--display);font-weight:400;font-size:44px;line-height:1;display:block}
+.facts b em{font-style:normal;color:var(--accent)}
+.facts span{font-size:12px;color:var(--sub)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.tags span{font-size:13px;border:1px solid var(--ink);padding:6px 14px;border-radius:999px;transition:.2s}
+.tags span:hover{background:var(--ink);color:var(--bg)}
+
+/* ---------- REELS ---------- */
+.reels{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+@media (max-width:1000px){.reels{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.reels{grid-template-columns:1fr;max-width:340px;margin-inline:auto}}
+.reel{cursor:pointer}
+.reel .frame{aspect-ratio:9/16;background:var(--ink);border-radius:18px;overflow:hidden;position:relative;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.reel:hover .frame{transform:translateY(-8px);box-shadow:0 24px 40px -20px rgba(0,0,0,.45)}
+.reel video{width:100%;height:100%;object-fit:cover}
+/* iPhone風の枠：黒いベゼル＋外周のフレーム＋上部のダイナミックアイランド。--phoneで大きさを変えられます */
+.reel{--phone:180px}
+.reel .frame{width:min(100%,var(--phone));margin-inline:auto;border:9px solid #111;border-radius:36px;box-shadow:0 0 0 2px #3a3a3a,0 0 0 3px #111,0 18px 30px -18px rgba(0,0,0,.45)}
+.reel:hover .frame{box-shadow:0 0 0 2px #3a3a3a,0 0 0 3px #111,0 28px 40px -20px rgba(0,0,0,.5)}
+.reel .frame::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:30%;height:16px;border-radius:999px;background:#000;z-index:3}
+.reel .badge{top:32px;left:10px;font-size:10px;padding:3px 8px}
+.reel .time{bottom:10px;right:10px}
+.reel .play i{width:48px;height:48px}
+.reel .meta{max-width:var(--phone);margin-inline:auto}
+.reel .badge{position:absolute;top:12px;left:12px;z-index:2;font-family:var(--latin);font-size:11px;font-weight:800;letter-spacing:.1em;background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px}
+.reel .time{position:absolute;bottom:12px;right:12px;z-index:2;font-family:var(--latin);font-size:11px;color:#fff;background:rgba(0,0,0,.5);padding:2px 8px;border-radius:4px}
+.reel .play{position:absolute;inset:0;display:grid;place-items:center;z-index:1;transition:opacity .3s}
+.reel .play i{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center}
+.reel .play i::after{content:"";border-left:16px solid var(--ink);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+.reel.playing .play{opacity:0}
+.reel .meta{padding:18px 4px 0}
+.reel .meta small{font-family:var(--latin);font-size:11px;font-weight:800;letter-spacing:.15em;color:var(--accent)}
+.reel .meta h4{font-size:17px;font-weight:700;line-height:1.5;margin:4px 0 10px}
+.reel .meta ul{list-style:none;font-size:13px;color:var(--sub)}
+.reel .meta li{padding-left:14px;position:relative}
+.reel .meta li::before{content:"";position:absolute;left:0;top:.8em;width:6px;height:2px;background:var(--accent)}
+.reel .meta .tool{margin-top:10px;font-size:12px;font-family:var(--latin);color:var(--ink)}
+
+/* 動画・画像がまだ無いときの仮表示 */
+.ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#9a9a9a;font-size:12px;text-align:center;padding:16px;
+    background:repeating-linear-gradient(135deg,#1c1c1c 0 14px,#222 14px 28px)}
+.ph b{font-family:var(--display);font-weight:400;font-size:28px;color:#fff;letter-spacing:.04em}
+.empty .ph{display:flex}
+.empty video,.empty img{visibility:hidden}
+.empty .play{display:none}
+.light .ph{background:repeating-linear-gradient(135deg,#ecebe6 0 14px,#f3f2ee 14px 28px);color:#8a8a8a}
+.light .ph b{color:var(--ink)}
+
+/* ---------- WORK STYLE ---------- */
+.ws{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.ws-card{background:var(--card);border:1px solid var(--line);padding:32px;position:relative;transition:transform .3s,border-color .3s}
+.ws-card:hover{transform:translateY(-4px);border-color:var(--ink)}
+.ws-card .k{font-family:var(--display);font-size:56px;line-height:1;color:var(--line);position:absolute;top:20px;right:24px}
+.ws-card h4{font-family:var(--latin);font-size:13px;font-weight:800;letter-spacing:.2em;color:var(--accent);margin-bottom:6px}
+.ws-card h5{font-size:20px;font-weight:900;margin-bottom:18px}
+.ws-card ul{list-style:none;font-size:14px}
+.ws-card li{padding:8px 0;border-bottom:1px dashed var(--line)}
+.ws-card li:last-child{border:none}
+
+/* ---------- CONTACT ---------- */
+.contact{background:var(--ink);color:var(--bg);text-align:center;padding:140px 0}
+.contact small{font-family:var(--latin);font-size:13px;letter-spacing:.3em;color:var(--accent);font-weight:800}
+.contact h2{font-family:var(--display);font-weight:400;font-size:clamp(56px,11vw,150px);line-height:1;margin:16px 0 24px;text-transform:uppercase}
+.contact p{color:#bbb;font-size:15px;margin-bottom:40px}
+.btn{display:inline-flex;align-items:center;gap:14px;background:var(--accent);color:#fff;font-family:var(--latin);font-weight:800;font-size:16px;padding:18px 36px;border-radius:999px;transition:transform .3s,gap .3s}
+.btn:hover{transform:scale(1.04);gap:22px}
+.sns{display:flex;justify-content:center;gap:24px;margin-top:36px;font-family:var(--latin);font-size:13px;letter-spacing:.1em}
+.sns a{border-bottom:1px solid #555;padding-bottom:2px}
+.sns a:hover{border-color:var(--accent)}
+footer{background:var(--ink);color:#777;text-align:center;font-family:var(--latin);font-size:12px;padding:0 0 32px}
+
+/* ---------- 動画モーダル ---------- */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
+.modal.open{display:flex}
+.modal video{max-height:88vh;max-width:100%;aspect-ratio:9/16;border-radius:14px;background:#000}
+.modal .close{position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;line-height:1}
+</style>
+</head>
+<body>
+
+<!-- ====================== ナビ ====================== -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">TAKASHI WAKAYAMA<span>.</span></a>
+    <ul>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#reels">REELS</a></li>
+      <li><a href="#workstyle">WORK STYLE</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ====================== HERO ====================== -->
+<section class="hero" id="top">
+  <canvas id="heroDots" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <p class="eyebrow">PORTFOLIO 2026</p>
+    <h1>
+      <span class="row"><span>Video Edit</span></span>
+      <span class="row"><span class="outline">SNS Design</span></span>
+      <span class="row"><span>Reels<span class="dot">.</span></span></span>
+    </h1>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>VIDEO EDITING <b>●</b> REELS <b>●</b> INSTAGRAM <b>●</b> CUT EDIT <b>●</b> SHORT MOVIE <b>●</b></span>
+      <span>VIDEO EDITING <b>●</b> REELS <b>●</b> INSTAGRAM <b>●</b> CUT EDIT <b>●</b> SHORT MOVIE <b>●</b></span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="lead">
+      <div class="scroll-cue"><i></i>SCROLL</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== ABOUT ====================== -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="num">01 / PROFILE</div><h2>About</h2></div>
+      <p>自己紹介</p>
+    </div>
+    <div class="about">
+      <!-- 写真：assets/profile.jpg を置くと表示されます -->
+      <div class="photo-box reveal">
+        <div class="photo light">
+          <img src="assets/profile.jpg" alt="プロフィール写真">
+          <div class="ph"><b>PHOTO</b>assets/profile.jpg<br>正方形推奨</div>
+        </div>
+        <span class="dot"></span>
+        <canvas id="faceCanvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="reveal">
+        <h3>若山 隆史</h3>
+        <p class="kana">TAKASHI WAKAYAMA / ワカヤマ タカシ</p>
+        <p class="bio">リール・ショート動画の編集をしています。テロップ入れに加え、AIを使った無音・フィラーカットで、話の間延びをなくしたテンポのよい動画に仕上げます。観光地やホテルのPR、旅行Vlog、AIツールの解説動画まで対応しています。</p>
+        <div class="facts">
+          <div><b>10<em>+</em></b><span>制作本数</span></div>
+          <div><b>1<em>yr</em></b><span>編集歴</span></div>
+          <div><b>30<em>h</em></b><span>週の稼働時間</span></div>
+        </div>
+        <div class="tags">
+          <span>リール編集</span><span>テロップ</span><span>無音カット</span><span>フィラーカット</span><span>AI活用</span><span>PR動画</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== REELS ====================== -->
+<section id="reels" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="num">02 / WORKS</div><h2>Reels</h2></div>
+      <p>リール動画 4本<br>タップで再生</p>
+    </div>
+    <div class="reels">
+      <article class="reel reveal">
+        <div class="frame">
+          <span class="badge">REEL 01</span><span class="time">0:23</span>
+          <video src="assets/reel-01.mp4" poster="assets/reel-01.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="play"><i></i></div>
+          <div class="ph"><b>REEL 01</b>assets/reel-01.mp4<br>9:16</div>
+        </div>
+        <div class="meta">
+          <small>HOT SPRING PR / 温泉旅館</small>
+          <h4>絶景露天風呂の温泉旅館 紹介リール</h4>
+          <ul><li>山並みの引きの画から始め、冒頭で「行ってみたい」を引き出す構成</li><li>「お出かけ先に迷ったら」など、見る人の悩みに寄り添うテロップ</li><li>ラストにプロフィール画面を見せ、予約への導線につなげる</li></ul>
+          <p class="tool">Tool: Premiere Pro</p>
+        </div>
+      </article>
+      <article class="reel reveal">
+        <div class="frame">
+          <span class="badge">REEL 02</span><span class="time">0:35</span>
+          <video src="assets/reel-02.mp4" poster="assets/reel-02.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="play"><i></i></div>
+          <div class="ph"><b>REEL 02</b>assets/reel-02.mp4<br>9:16</div>
+        </div>
+        <div class="meta">
+          <small>HOTEL PR / ホテル</small>
+          <h4>ホテル日本橋サイボー 紹介リール</h4>
+          <ul><li>駅からの距離 → 館内 → 朝食と、泊まる流れに沿って紹介</li><li>要点だけを短く大きく。縁取りテロップで街なかの映像でも読みやすく</li><li>最後に公式サイトを表示し、予約の行動につなげる</li></ul>
+          <p class="tool">Tool: Premiere Pro</p>
+        </div>
+      </article>
+      <article class="reel reveal">
+        <div class="frame">
+          <span class="badge">REEL 03</span><span class="time">0:32</span>
+          <video src="assets/reel-03.mp4" poster="assets/reel-03.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="play"><i></i></div>
+          <div class="ph"><b>REEL 03</b>assets/reel-03.mp4<br>9:16</div>
+        </div>
+        <div class="meta">
+          <small>TRAVEL VLOG / 旅行</small>
+          <h4>ギリシャでスキー 旅行Vlog</h4>
+          <ul><li>遺跡・博物館・街・雪山と、場面ごとに章立てした構成</li><li>ぼかし背景＋中央フレームの統一レイアウトで、横撮り素材も縦型に</li><li>短いテロップで旅の余韻を残す</li></ul>
+          <p class="tool">Tool: Premiere Pro</p>
+        </div>
+      </article>
+      <article class="reel reveal">
+        <div class="frame">
+          <span class="badge">REEL 04</span><span class="time">0:43</span>
+          <video src="assets/reel-04.mp4" poster="assets/reel-04.jpg" muted loop playsinline preload="metadata"></video>
+          <div class="play"><i></i></div>
+          <div class="ph"><b>REEL 04</b>assets/reel-04.mp4<br>9:16</div>
+        </div>
+        <div class="meta">
+          <small>HOW-TO / AI解説</small>
+          <h4>Claude Codeエージェントを3ステップで作る 解説リール</h4>
+          <ul><li>手描きホワイトボード風のアニメで、専門的な内容も親しみやすく</li><li>「① /agentsと打つ ② 日本語で書く ③ 名前を呼んで頼む」と手順ごとに見出しを固定</li><li>ラストで「相談はプロフから」と、問い合わせにつなげる</li></ul>
+          <p class="tool">Tool: Premiere Pro</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== WORK STYLE ====================== -->
+<section id="workstyle" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="num">03 / SERVICE</div><h2>Work Style</h2></div>
+      <p>対応業務・使用ツール・稼働時間</p>
+    </div>
+    <div class="ws">
+      <div class="ws-card reveal">
+        <span class="k">A</span>
+        <h4>SERVICE</h4><h5>可能業務</h5>
+        <ul><li>リール・ショート動画の編集</li><li>テロップ入れ</li><li>AIを使った無音・フィラーカット</li><li>店舗・施設のPR動画</li><li>AI・ITツールの解説動画</li></ul>
+      </div>
+      <div class="ws-card reveal">
+        <span class="k">B</span>
+        <h4>TOOLS</h4><h5>使用ツール</h5>
+        <ul><li>Adobe Premiere Pro</li><li>AIツール（無音・フィラーカット）</li></ul>
+      </div>
+      <div class="ws-card reveal">
+        <span class="k">C</span>
+        <h4>SCHEDULE</h4><h5>稼働時間</h5>
+        <ul><li>週：30時間程度</li><li>連絡：〇時〜〇時に返信</li><li>納期：〇日〜（要相談）</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== CONTACT ====================== -->
+<section class="contact" id="contact">
+  <div class="wrap reveal">
+    <small>04 / CONTACT</small>
+    <h2>Let's Work<br>Together<span style="color:var(--accent)">.</span></h2>
+    <p>お仕事のご依頼・ご相談はお気軽にどうぞ。</p>
+    <a class="btn" href="mailto:info-habi@exiine.com">info-habi@exiine.com <span>→</span></a>
+    <!-- SNSがあればコメントを外してURLを入れる
+    <div class="sns">
+      <a href="#">Instagram</a><a href="#">X</a><a href="#">YouTube</a>
+    </div> -->
+  </div>
+</section>
+<footer>© 2026 TAKASHI WAKAYAMA</footer>
+
+<!-- 動画拡大表示 -->
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button class="close" id="close" aria-label="閉じる">×</button>
+  <video id="modalVideo" controls playsinline></video>
+</div>
+
+<!-- 写真データ（file:// で開いても点の演出が動くように。写真を替えたら make_face_js.py を実行） -->
+<script src="assets/face.js"></script>
+<script>
+// ナビの背景
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+// スクロール表示
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*80+'ms';io.observe(el)});
+
+// 素材が無いときは仮表示に切り替え
+function markEmpty(media,box){
+  const set=()=>box.classList.add('empty');
+  media.addEventListener('error',set);
+  if(media.tagName==='IMG'&&media.complete&&!media.naturalWidth)set();
+  if(media.tagName==='VIDEO'&&media.error)set();
+}
+document.querySelectorAll('.photo img').forEach(m=>markEmpty(m,m.parentElement));
+document.querySelectorAll('.slide img').forEach(m=>markEmpty(m,m.parentElement));
+
+// リール：ホバーでミュート再生、クリックで拡大再生（音あり）
+const modal=document.getElementById('modal'),mv=document.getElementById('modalVideo');
+document.querySelectorAll('.reel').forEach(r=>{
+  const v=r.querySelector('video'),f=r.querySelector('.frame');
+  markEmpty(v,f);
+  r.addEventListener('mouseenter',()=>{if(!f.classList.contains('empty'))v.play().then(()=>r.classList.add('playing')).catch(()=>{})});
+  r.addEventListener('mouseleave',()=>{v.pause();r.classList.remove('playing')});
+  r.addEventListener('click',()=>{
+    if(f.classList.contains('empty'))return;
+    v.pause();mv.src=v.currentSrc||v.src;modal.classList.add('open');mv.muted=false;mv.play().catch(()=>{});
+  });
+});
+function closeModal(){modal.classList.remove('open');mv.pause();mv.removeAttribute('src');mv.load()}
+document.getElementById('close').onclick=closeModal;
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// プロフィール写真：点 → 線 → 面 → 写真 と組み上がる（クリックでもう一度）
+(function(){
+  const box=document.querySelector('.photo-box'),cv=document.getElementById('faceCanvas');
+  if(!box||!cv||!window.FACE||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const X=cv.getContext('2d'),S=400,cx=200,cy=200,R=134,N=34;   // S:canvas幅(css px) R:写真の半径 N:点の細かさ
+  const PAL=['#111111','#FF5A1F','#9A9A9A','#FF8A5C','#3A3A3A'];
+  const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),pr=(t,s,d)=>cl((t-s)/d),lerp=(a,b,t)=>a+(b-a)*t;
+  const eo=x=>x>=1?1:1-Math.pow(2,-10*x),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+  const eb=x=>{if(x<=0)return 0;if(x>=1)return 1;const c1=2.2,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+  const mix=(a,b,t)=>`rgb(${a.map((v,i)=>Math.round(lerp(v,b[i],t))).join(',')})`;
+  const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+  let img,pts,pix,raf=null,started=false;
+  const dpr=Math.min(devicePixelRatio||1,2);cv.width=cv.height=S*dpr;X.scale(dpr,dpr);
+  img=new Image();img.src=window.FACE;
+  img.decode().then(()=>{
+    const c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d');g.drawImage(img,0,0,N,N);
+    const d=g.getImageData(0,0,N,N).data;pts=[];
+    for(let j=0;j<N;j++)for(let i=0;i<N;i++){
+      const u=(i+.5)/N*2-1,v=(j+.5)/N*2-1;
+      if(u*u+v*v>1.1){pts.push(null);continue}
+      const k=(j*N+i)*4,a=Math.random()*Math.PI*2,r=60+Math.random()*130;
+      pts.push({i,j,u,v,rgb:[d[k],d[k+1],d[k+2]],sx:cx+Math.cos(a)*r,sy:cy+Math.sin(a)*r,dl:Math.random(),pc:hex(PAL[Math.random()*PAL.length|0])});
+    }
+    pix=[14,48].map(m=>{const cc=document.createElement('canvas');cc.width=cc.height=m;cc.getContext('2d').drawImage(img,0,0,m,m);return cc});
+    if(started)play();
+  }).catch(()=>box.classList.remove('building'));
+  function frame(t){
+    const cell=2*R/N,pL=pr(t,1.7,1),pF=pr(t,2.7,1),pI=pr(t,3.7,1.1);
+    const T=p=>[cx-R+(p.i+.5)*cell,cy-R+(p.j+.5)*cell];
+    X.clearRect(0,0,S,S);
+    // 1) 点：中央から弾けて散り、渦を巻いて顔の位置へ集まる
+    if(pF<1)pts.forEach(p=>{
+      if(!p)return;const [tx,ty]=T(p);let x,y,e=0;
+      if(t<.5){const q=eo(t/.5);x=lerp(cx,p.sx,q);y=lerp(cy,p.sy,q)}
+      else{
+        e=eio(pr(t,.5+p.dl*.45,1.15));
+        const rs=Math.hypot(p.sx-cx,p.sy-cy),as=Math.atan2(p.sy-cy,p.sx-cx),rt=Math.hypot(tx-cx,ty-cy),at=Math.atan2(ty-cy,tx-cx);
+        let da=at-as;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
+        const a=as+da*e+(1-e)*1.6,rad=lerp(rs,rt,e);x=cx+Math.cos(a)*rad;y=cy+Math.sin(a)*rad;
+      }
+      X.globalAlpha=1-pF;X.fillStyle=mix(p.pc,p.rgb,e);
+      X.beginPath();X.arc(x,y,lerp(2.2,cell*.36,e)*(1-pL*.45),0,7);X.fill();
+    });
+    X.globalAlpha=1;
+    // 2) 線：隣り合う点どうしが線でつながる
+    if(pL>0&&pF<1){
+      const e=eo(pL);X.lineCap='round';X.lineWidth=lerp(1.5,cell*.5,pF);X.globalAlpha=1-pF*.6;
+      pts.forEach(p=>{
+        if(!p)return;const [tx,ty]=T(p);
+        [[1,0],[0,1]].forEach(([di,dj])=>{
+          if(p.i+di>=N||p.j+dj>=N)return;const q=pts[(p.j+dj)*N+p.i+di];if(!q)return;
+          const lp=cl((e-Math.hypot(p.u,p.v)*.35)/.65);if(lp<=0)return;
+          X.strokeStyle=mix(p.rgb,q.rgb,.5);X.beginPath();X.moveTo(tx,ty);X.lineTo(tx+di*cell*lp,ty+dj*cell*lp);X.stroke();
+        });
+      });
+      X.globalAlpha=1;
+    }
+    // 3) 面 → 4) 写真（円でクリップ、モザイクから徐々に鮮明に）
+    if(pF>0){
+      X.save();X.beginPath();X.arc(cx,cy,R,0,7);X.clip();
+      if(pI<.55)pts.forEach(p=>{
+        if(!p)return;const [tx,ty]=T(p),s=eb(cl((pF-Math.hypot(p.u,p.v)*.4)/.6))*(cell+1);if(s<=0)return;
+        X.fillStyle=`rgb(${p.rgb.join(',')})`;X.fillRect(tx-s/2,ty-s/2,s,s);
+      });
+      if(pI>0){
+        X.imageSmoothingEnabled=false;
+        X.drawImage(pI<.3?pix[0]:pix[1],cx-R,cy-R,R*2,R*2);
+        X.imageSmoothingEnabled=true;
+        if(pI>=.55){X.globalAlpha=eio(pr(pI,.55,.45));X.drawImage(img,cx-R,cy-R,R*2,R*2);X.globalAlpha=1}
+      }
+      X.restore();
+    }
+  }
+  function play(){
+    if(!pts)return;
+    cancelAnimationFrame(raf);box.classList.remove('done');box.classList.add('building');
+    const t0=performance.now(),SPEED=1.15,END=4.85;
+    const step=now=>{
+      const t=(now-t0)/1000*SPEED;frame(Math.min(t,END));
+      if(t<END)raf=requestAnimationFrame(step);
+      else{box.classList.remove('building');box.classList.add('done')}
+    };
+    raf=requestAnimationFrame(step);
+  }
+  box.classList.add('building');
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){started=true;o.disconnect();setTimeout(play,350)}},{threshold:.5}).observe(box);
+  box.addEventListener('click',play);
+})();
+
+// HERO：点の集まりの幾何学模様。球 → トーラス → 波 → 正八面体と形を変えながら文字の下を漂い、マウスで押しのけられる（クリックで波紋）
+(function(){
+  const hero=document.querySelector('.hero'),cv=document.getElementById('heroDots');
+  if(!hero||!cv)return;
+  const X=cv.getContext('2d'),N=1100;                    // N:点の数
+  const PUSH=150,FORCE=2.4,SPRING=.045,DAMP=.84;           // PUSH:マウスが押しのける半径 FORCE:強さ SPRING:戻る力 DAMP:減衰
+  const HOLD=5.5,MORPH=2.2;                                // 1つの形を見せる秒数・変形にかける秒数
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const INK=[17,17,17],GRAD=[[116,26,250],[255,48,196],[255,93,33],[255,215,53]];   // 差し色：SNS Designと同じ 紫→ピンク→オレンジ→黄色
+  const grad=u=>{const s=Math.min(u,.999)*(GRAD.length-1),k=Math.floor(s),f=s-k;return GRAD[k].map((v,j)=>v+(GRAD[k+1][j]-v)*f)};
+  const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+
+  // 形（単位サイズの3D座標）
+  const sphere=i=>{const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),a=i*2.39996;return[Math.cos(a)*r,y,Math.sin(a)*r]};
+  const torus=i=>{const U=44,V=N/U,u=(i%U)/U*Math.PI*2,v=Math.floor(i/U)/V*Math.PI*2,R=.78,r=.34;
+    return[(R+r*Math.cos(u))*Math.cos(v),r*Math.sin(u),(R+r*Math.cos(u))*Math.sin(v)]};
+  const wave=i=>{const C=Math.ceil(Math.sqrt(N)),x=(i%C)/(C-1)*2-1,z=Math.floor(i/C)/(C-1)*2-1;
+    return[x*1.25,Math.sin(Math.hypot(x,z)*6)*.16,z*1.25]};
+  const octa=i=>{const p=sphere(i),s=Math.abs(p[0])+Math.abs(p[1])+Math.abs(p[2]);return p.map(v=>v/s*1.15)};
+  const SHAPES=[sphere,torus,wave,octa].map(f=>Array.from({length:N},(_,i)=>f(i)));
+
+  let W=0,H=0,dpr=1,raf=null,visible=true,t0=performance.now();
+  // 点ごとの差し色は、球のときの左右位置でグラデーションに並べる（形と一緒に回る）
+  const P=Array.from({length:N},(_,i)=>({x:0,y:0,vx:0,vy:0,acc:i%13===0,col:grad((SHAPES[0][i][0]+1)/2)}));
+  const mouse={x:-9999,y:-9999,tx:0,ty:0},waves=[];
+
+  function resize(){
+    const r=hero.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(devicePixelRatio||1,2);
+    cv.width=W*dpr;cv.height=H*dpr;X.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function target(t,out){
+    // 今の形と次の形を補間
+    const cyc=HOLD+MORPH,k=Math.floor(t/cyc),f=t%cyc,m=f<HOLD?0:eio((f-HOLD)/MORPH);
+    const A=SHAPES[k%SHAPES.length],B=SHAPES[(k+1)%SHAPES.length];
+    // 中心はゆっくり8の字に動き回る
+    const S=Math.min(W,H)*(W<720?.42:.34),cx=W*(.5+.26*Math.sin(t*.13)),cy=H*(.52+.14*Math.sin(t*.21+1));
+    const ry=t*.25+mouse.tx*.6,rx=-.35+Math.sin(t*.17)*.25+mouse.ty*.4;
+    const cy1=Math.cos(ry),sy1=Math.sin(ry),cx1=Math.cos(rx),sx1=Math.sin(rx),breathe=1+Math.sin(t*.8)*.04;
+    for(let i=0;i<N;i++){
+      const a=A[i],b=B[i];
+      let x=a[0]+(b[0]-a[0])*m,y=a[1]+(b[1]-a[1])*m,z=a[2]+(b[2]-a[2])*m;
+      let x2=x*cy1+z*sy1,z2=-x*sy1+z*cy1;
+      let y2=y*cx1-z2*sx1,z3=y*sx1+z2*cx1;
+      const persp=2.6/(2.6+z3);
+      out[i*3]=cx+x2*S*persp*breathe;out[i*3+1]=cy+y2*S*persp*breathe;out[i*3+2]=z3;
+    }
+  }
+  const T=new Float32Array(N*3);
+
+  function frame(now){
+    const t=(now-t0)/1000;
+    mouse.tx+=((mouse.x>-999?mouse.x/W-.5:0)-mouse.tx)*.04;
+    mouse.ty+=((mouse.y>-999?mouse.y/H-.5:0)-mouse.ty)*.04;
+    target(t,T);
+    X.clearRect(0,0,W,H);
+    for(let w=waves.length-1;w>=0;w--){waves[w].r+=14;if(waves[w].r>Math.max(W,H))waves.splice(w,1)}
+    for(let i=0;i<N;i++){
+      const p=P[i],tx=T[i*3],ty=T[i*3+1],z=T[i*3+2];
+      p.vx+=(tx-p.x)*SPRING;p.vy+=(ty-p.y)*SPRING;
+      // マウスで押しのける
+      const dx=p.x-mouse.x,dy=p.y-mouse.y,d2=dx*dx+dy*dy;
+      if(d2<PUSH*PUSH&&d2>.01){const d=Math.sqrt(d2),f=(1-d/PUSH)*FORCE;p.vx+=dx/d*f*4;p.vy+=dy/d*f*4}
+      // クリックの波紋
+      for(const w of waves){const ex=p.x-w.x,ey=p.y-w.y,d=Math.hypot(ex,ey)||1,g=1-Math.abs(d-w.r)/40;
+        if(g>0){const f=g*9*(1-w.r/Math.max(W,H));p.vx+=ex/d*f;p.vy+=ey/d*f}}
+      p.vx*=DAMP;p.vy*=DAMP;p.x+=p.vx;p.y+=p.vy;
+      const depth=(1-z)/2,sp=Math.min(Math.hypot(p.vx,p.vy)/12,1);    // 手前ほど大きく濃く、速く動く点は差し色寄りに
+      const c=p.acc?p.col:INK.map((v,j)=>v+(p.col[j]-v)*sp);
+      X.fillStyle=`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${(.12+depth*.5+(p.acc?.2:0)).toFixed(3)})`;
+      const r=(p.acc?1.5:1)*(.8+depth*1.7);
+      X.beginPath();X.arc(p.x,p.y,r,0,6.2832);X.fill();
+    }
+    if(!reduce&&visible)raf=requestAnimationFrame(frame);else raf=null;
+  }
+
+  resize();
+  target(0,T);
+  P.forEach((p,i)=>{const a=Math.random()*6.28,d=Math.max(W,H)*.6;p.x=W/2+Math.cos(a)*d;p.y=H/2+Math.sin(a)*d}); // 外から集まってくる
+  if(reduce)P.forEach((p,i)=>{p.x=T[i*3];p.y=T[i*3+1]});
+  cv.classList.add('on');
+  raf=requestAnimationFrame(frame);
+
+  addEventListener('resize',()=>{resize();if(!raf)raf=requestAnimationFrame(frame)});
+  hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+  hero.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-9999});
+  hero.addEventListener('pointerdown',e=>{const r=hero.getBoundingClientRect();waves.push({x:e.clientX-r.left,y:e.clientY-r.top,r:0})});
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible&&!raf&&!reduce)raf=requestAnimationFrame(frame)}).observe(hero);
+})();
+
+</script>
+</body>
+</html>
