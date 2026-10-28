@@ -150,6 +150,25 @@ section{padding:120px 0}
 .reel .meta li::before{content:"";position:absolute;left:0;top:.8em;width:6px;height:2px;background:var(--accent)}
 .reel .meta .tool{margin-top:10px;font-size:12px;font-family:var(--latin);color:var(--ink)}
 
+/* ---------- SNS FEED ---------- */
+.feed-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px 56px;align-items:start;margin-bottom:32px}
+@media (max-width:860px){.feed-info{grid-template-columns:1fr}}
+.feed-info small{font-family:var(--latin);font-size:11px;font-weight:800;letter-spacing:.15em;color:var(--accent)}
+.feed-info h3{font-size:22px;font-weight:900;line-height:1.5;margin-top:4px}
+.feed-info ul{list-style:none;font-size:14px;color:var(--sub)}
+.feed-info li{padding-left:14px;position:relative}
+.feed-info li::before{content:"";position:absolute;left:0;top:.8em;width:6px;height:2px;background:var(--accent)}
+.feed{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+@media (max-width:1000px){.feed{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:480px){.feed{grid-template-columns:repeat(2,1fr)}}
+.feed button{display:block;padding:0;border:1px solid var(--line);background:var(--card);cursor:pointer;aspect-ratio:4/5;overflow:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.feed button:hover{transform:translateY(-6px);box-shadow:0 20px 34px -20px rgba(0,0,0,.45)}
+.feed img{width:100%;height:100%;object-fit:cover}
+.modal img{max-height:88vh;max-width:100%;border-radius:8px}
+.modal .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer}
+.modal .prev{left:16px}
+.modal .next{right:16px}
+
 /* 動画・画像がまだ無いときの仮表示 */
 .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#9a9a9a;font-size:12px;text-align:center;padding:16px;
     background:repeating-linear-gradient(135deg,#1c1c1c 0 14px,#222 14px 28px)}
@@ -200,6 +219,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
     <ul>
       <li><a href="#about">ABOUT</a></li>
       <li><a href="#reels">REELS</a></li>
+      <li><a href="#feed">FEED</a></li>
       <li><a href="#workstyle">WORK STYLE</a></li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
@@ -332,11 +352,41 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
   </div>
 </section>
 
+<!-- ====================== SNS FEED ====================== -->
+<section id="feed" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="num">03 / WORKS</div><h2>SNS Feed</h2></div>
+      <p>フィード投稿 6枚<br>タップで拡大</p>
+    </div>
+    <div class="feed-info reveal">
+      <div>
+        <small>CAROUSEL / 自主制作</small>
+        <h3>リールは最初の3秒で決まる<br>初心者向けカルーセル投稿</h3>
+      </div>
+      <ul>
+        <li>リールを始めたばかりの人に向けて、動画の冒頭の作り方を「3つの型」に整理</li>
+        <li>表紙 → 悩み → 解決策 × 3 → チェックリストの流れで、最後に保存したくなる構成</li>
+        <li>色を5色に絞り、見出しとテロップだけで伝わるシンプルなデザイン</li>
+      </ul>
+    </div>
+    <!-- 画像：assets/feed-01.jpg〜feed-06.jpg（1080×1350）を差し替えると表示が変わります -->
+    <div class="feed reveal">
+      <button type="button"><img src="assets/feed-01.jpg" alt="1枚目：最後まで見られるリールは3秒で決まる" loading="lazy"></button>
+      <button type="button"><img src="assets/feed-02.jpg" alt="2枚目：最初の3秒でスワイプされていませんか" loading="lazy"></button>
+      <button type="button"><img src="assets/feed-03.jpg" alt="3枚目：型1 結論から見せる" loading="lazy"></button>
+      <button type="button"><img src="assets/feed-04.jpg" alt="4枚目：型2 問いかけで始める" loading="lazy"></button>
+      <button type="button"><img src="assets/feed-05.jpg" alt="5枚目：型3 意外な映像で始める" loading="lazy"></button>
+      <button type="button"><img src="assets/feed-06.jpg" alt="6枚目：次のリールで試してみよう" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
 <!-- ====================== WORK STYLE ====================== -->
 <section id="workstyle" style="padding-top:40px">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="num">03 / SERVICE</div><h2>Work Style</h2></div>
+      <div><div class="num">04 / SERVICE</div><h2>Work Style</h2></div>
       <p>対応業務・使用ツール・稼働時間</p>
     </div>
     <div class="ws">
@@ -362,7 +412,7 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
 <!-- ====================== CONTACT ====================== -->
 <section class="contact" id="contact">
   <div class="wrap reveal">
-    <small>04 / CONTACT</small>
+    <small>05 / CONTACT</small>
     <h2>Let's Work<br>Together<span style="color:var(--accent)">.</span></h2>
     <p>お仕事のご依頼・ご相談はお気軽にどうぞ。</p>
     <a class="btn" href="mailto:info-habi@exiine.com">info-habi@exiine.com <span>→</span></a>
@@ -378,6 +428,13 @@ footer{background:var(--ink);color:#777;text-align:center;font-family:var(--lati
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <button class="close" id="close" aria-label="閉じる">×</button>
   <video id="modalVideo" controls playsinline></video>
+</div>
+<!-- フィード画像の拡大表示 -->
+<div class="modal" id="imgModal" role="dialog" aria-modal="true">
+  <button class="close" id="imgClose" aria-label="閉じる">×</button>
+  <button class="nav-btn prev" id="imgPrev" aria-label="前の画像">←</button>
+  <img id="modalImg" alt="">
+  <button class="nav-btn next" id="imgNext" aria-label="次の画像">→</button>
 </div>
 
 <!-- 写真データ（file:// で開いても点の演出が動くように。写真を替えたら make_face_js.py を実行） -->
@@ -417,6 +474,23 @@ function closeModal(){modal.classList.remove('open');mv.pause();mv.removeAttribu
 document.getElementById('close').onclick=closeModal;
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
 addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// フィード画像：クリックで拡大、← → で前後の画像へ
+const im=document.getElementById('imgModal'),mi=document.getElementById('modalImg');
+const feedImgs=[...document.querySelectorAll('.feed img')];
+let cur=0;
+function showImg(i){cur=(i+feedImgs.length)%feedImgs.length;mi.src=feedImgs[cur].src;mi.alt=feedImgs[cur].alt}
+feedImgs.forEach((img,i)=>img.parentElement.addEventListener('click',()=>{showImg(i);im.classList.add('open')}));
+document.getElementById('imgPrev').onclick=()=>showImg(cur-1);
+document.getElementById('imgNext').onclick=()=>showImg(cur+1);
+document.getElementById('imgClose').onclick=()=>im.classList.remove('open');
+im.addEventListener('click',e=>{if(e.target===im)im.classList.remove('open')});
+addEventListener('keydown',e=>{
+  if(!im.classList.contains('open'))return;
+  if(e.key==='Escape')im.classList.remove('open');
+  if(e.key==='ArrowLeft')showImg(cur-1);
+  if(e.key==='ArrowRight')showImg(cur+1);
+});
 
 // プロフィール写真：点 → 線 → 面 → 写真 と組み上がる（クリックでもう一度）
 (function(){
